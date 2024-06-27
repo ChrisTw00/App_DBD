@@ -1,0 +1,38 @@
+{%extends "baseMisResultados.html"%}
+
+{%block body%}
+<div class="container">
+    <h2>Resultados:</h2>
+    {%for r in resultados%}
+    <div>
+        <label>ID_Empleado: </label>
+        <span>{{r.0}}</span>
+    </div>
+
+    <div>
+        <label>Nombre: </label>
+        <span>{{r.1}}</span>
+    </div>
+
+    <div>
+        <label>Apellido: </label>
+        <span>{{r.2}}</span>
+    </div>
+
+    <div>
+        <label>Fecha de ingreso: </label>
+        <span>{{r.3}}</span>
+    </div>
+
+    <div>
+        <label>Calificación: </label>
+        <span>{{r.4}}</span>
+    </div>
+
+    <div>
+        <label>Retroalimentación: </label>
+        <span>{{r.5}}</span>
+    </div>
+    {%endfor%}
+</div>
+{%endblock%}

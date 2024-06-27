@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        {% load static %}
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Editar un Cuestionario</title>
+        <link rel="stylesheet" href="{% static 'css/general.css' %}">
+            
+    </head>
+
+    <body>
+        <header>
+            <h1>EDITAR UN CUESTIONARIO </h1>
+        </header>
+
+        <div class="container">
+            <form action="/agregarPregunta/" method="POST"> {% csrf_token %}
+                <div>
+                    <label>Seleccione el tipo de cuestionario: </label>
+                    <select id="tipo" name="id_tipo_cuestionario" onchange="if (this.value) window.location.href = this.value;">
+                        <option disabled selected>Seleccione el tipo de cuestionario: </option>
+                    {% for t in tiposCuestionario %}
+                        <option value="/editar/{{t.0}}/">{{t.1}}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+            </form>
+    
+            {%block body%}
+            {%endblock%}
+        </div>
+
+        <footer>© 2024 EVALUACIÓN DE DESEMPEÑO</footer>
+
+    </body>
+</html>

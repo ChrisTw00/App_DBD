@@ -1,0 +1,28 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>PAEM SAC</title>
+        <link rel="stylesheet" href="{% static 'styles.css' %}">
+    </head>
+<body>
+    <div class="left-image"></div>
+    <div class="content">
+        <div class="container">
+            <h1>Seleccione lo que desea hacer</h1>
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit" name="action" value="cesar_empleado">Cesar un empleado</button>
+                <button>Hacer una encuesta</button>
+                <button>Revisar postulantes</button>
+                <button>Registrar asistencias</button>
+                <button>Actualizar un dato</button>
+                <button>Revisar solicitud de licencias</button>
+                <button>Solicitar capacitación</button>
+                <button>Modificar el pago de un empleado</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

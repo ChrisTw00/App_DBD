@@ -1,0 +1,23 @@
+{% extends "actualizar_asistencia.html" %}
+
+{%block body%}
+
+<div>
+    <table border="1" class="table">
+        <tr>
+            <th>Nombre Completo</th>
+            <th>Codigo</th>
+            <th>Estado Sesion</th>
+        </tr>
+        {% for Sesion in Sesion%}
+        <tr>
+            <th>{{Sesion.0}}</th>
+            <th>{{Sesion.1}}</th>
+            <th>{{Sesion.2}}</th>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
+{%endblock%}

@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Evaluación - Sistema de Reclutamiento y Selección</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Actualizar Evaluación</h1>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <form method="post" class="form">
+                {% csrf_token %}
+                <label for="id_entrevista">Entrevista:</label>
+                <select name="id_entrevista" id="id_entrevista" required>
+                    {% for entrevista in entrevistas %}
+                        <option value="{{ entrevista.0 }}">{{ entrevista.0 }} - {{ entrevista.1 }} {{ entrevista.2 }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="competencias">Competencias Evaluadas:</label>
+                <div id="competencias-container">
+                    <div class="competencia-item">
+                        <select name="competencias[]" class="competencia-select" required>
+                            {% for competencia in competencias %}
+                                <option value="{{ competencia.0 }}">{{ competencia.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <button type="button" id="add-competencia-btn">Agregar Competencia</button>
+
+                <label for="result_evaluacion">Resultado de Evaluación:</label>
+                <input type="text" name="result_evaluacion" id="result_evaluacion" required>
+
+                <label for="duracion_evaluacion">Duración de Evaluación (minutos):</label>
+                <input type="number" name="duracion_evaluacion" id="duracion_evaluacion" required>
+
+                <label for="estado_evaluacion">Estado de Evaluación:</label>
+                <select name="estado_evaluacion" id="estado_evaluacion" required>
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="Aprobado">Aprobado</option>
+                    <option value="Rechazado">Rechazado</option>
+                </select>
+
+                <button type="submit" class="btn">Actualizar Evaluación</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Sistema de Reclutamiento y Selección</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('add-competencia-btn').addEventListener('click', function() {
+                let container = document.getElementById('competencias-container');
+                let newItem = container.querySelector('.competencia-item').cloneNode(true);
+                newItem.querySelectorAll('select').forEach(select => select.value = '');  // Reset the selects
+                container.appendChild(newItem);
+            });
+        });
+    </script>
+</body>
+</html>

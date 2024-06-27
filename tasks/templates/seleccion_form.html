@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleccionar Horario y Puesto</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Seleccionar Horario y Puesto</h1>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            {% if error %}
+                <p class="error">{{ error }}</p>
+            {% endif %}
+            <form method="post" class="form">
+                {% csrf_token %}
+                <label for="id_vacante">Puesto:</label>
+                <select name="id_vacante" id="id_vacante" required>
+                    {% for vacante in vacantes %}
+                    <option value="{{ vacante.0 }}">{{ vacante.1 }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="id_cand">Candidato:</label>
+                <select name="id_cand" id="id_cand" required>
+                    {% for candidato in candidatos %}
+                    <option value="{{ candidato.0 }}">{{ candidato.1 }} {{ candidato.2 }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="horario_disponible">Horario Disponible:</label>
+                <select name="horario_disponible" id="horario_disponible" required>
+                    <option value="Turno Mañana: 9:00 am a 4:00 pm">Turno Mañana: 9:00 am a 4:00 pm</option>
+                    <option value="Turno Tarde: 12:00 pm a 8:00 pm">Turno Tarde: 12:00 pm a 8:00 pm</option>
+                </select>
+
+                <label for="fecha_aplicacion">Fecha de Aplicación:</label>
+                <input type="date" name="fecha_aplicacion" id="fecha_aplicacion" required>
+
+                <button type="submit" class="btn">Registrar</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Sistema de Reclutamiento y Selección</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programar Reunión</title>
+    <link rel="stylesheet" href="{% static 'css/general.css' %}">  
+
+</head>
+
+<body>
+    <h1>PROGRAMAR REUNIÓN</h1>
+    <div>
+        <form action="/botonProgramar/" method="POST"> {% csrf_token %}
+
+            <div>
+                <label for="id">Ingrese su ID: </label>
+                <input type="text" id="id" name="id_organizador">
+            </div>
+
+            <div>
+                <label for="id">Asunto de la reunión: </label>
+                <input type="text" id="asunto" name="asunto">
+            </div>
+            
+            <div>
+                <label for="id">Fecha: </label>
+                <input type="date" id="fecha" name="fecha">
+            </div>
+
+            <div>
+                <label for="id">Hora: </label>
+                <input type="time" id="hora" name="hora">
+            </div>
+
+            <button type="submit">Programar</button>  
+
+        </form>
+    </div>
+
+    <footer>© 2024 EVALUACIÓN DE DESEMPEÑO</footer>
+
+</body>
+</html>

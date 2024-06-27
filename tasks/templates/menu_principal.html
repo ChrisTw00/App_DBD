@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Principal</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Menu Principal</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'Generar_reporte_asistencia' %}">Generar Reporte de Asistencia</a></li>
+            <li><a href="{% url 'registro_empleado' %}">Registrar Empleado</a></li>
+            <li><a href="{% url 'listar_postulantes' %}">Listar Postulantes</a></li>
+            <li><a href="{% url 'SolicitarLicencia' %}">Solicitar Licencia</a></li>
+            <li><a href="{% url 'SolicitarPermiso' %}">Solicitar Permiso</a></li>
+            <li><a href="{% url 'preseleccion_candidatos' %}">Preselección de Candidatos</a></li>
+            <li><a href="{% url 'seleccion_final' %}">Selección Final</a></li>
+            <li><a href="{% url 'crear_vacante' %}">Crear Vacante</a></li>
+            <li><a href="{% url 'listar_vacantes' %}">Listar Vacantes</a></li>
+            <li><a href="{% url 'programar_entrevista' %}">Programar Entrevista</a></li>
+            <li><a href="{% url 'listar_entrevistas' %}">Listar Entrevistas</a></li>
+            <li><a href="{% url 'actualizar_evaluacion' %}">Actualizar Evaluación</a></li>
+            <li><a href="{% url 'listado_seleccionados' %}">Listado de Seleccionados</a></li>
+            <li><a href="{% url 'listar_evaluaciones' %}">Listar Evaluaciones</a></li>
+            <li><a href="{% url 'aprobar_rechazar_permisos' %}">Aprobar/Rechazar Permisos</a></li>
+        </ul>
+    </nav>
+    <footer>
+        <p>&copy; 2024 Your Company</p>
+    </footer>
+</body>
+</html>

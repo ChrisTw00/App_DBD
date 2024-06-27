@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %} 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matricula Empleado</title>
+    <link rel="stylesheet" href='{% static "css/estilo_registro.css"%}'>
+</head>
+<body>
+    <h1>DATOS DEL EMPLEADO</h1>
+    <div>
+        <form action="/matricular_empleado/" method="POST" class="form"> {% csrf_token %}
+            <div>
+                <label>Ingrese Codigo Capacitacion</label>
+                <input type="number" placeholder="9" name="codigo_programa" required>
+            </div>
+            <div>
+                <label>Codigo Empleado</label>
+                <input type="number" placeholder="20200009" name="cod_empleado" required>
+            </div>
+                <div>
+                <label>Documento</label>
+                </div>
+                <div>
+                <label>Apellido</label><label>Nombre</label>
+                </div>
+                <div>
+                <label>Correo</label><label>Celular</label>
+                </div>
+                <button type="submit" class="btn" >Agregar</button>
+        </form>
+    </div>
+    <footer>
+        <div class="containerf">
+            <p>&copy; 2024 Sistema de Capacitacion</p>
+        </div>
+    </footer>
+</body>
+</html>

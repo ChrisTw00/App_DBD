@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Perfil - Sistema de Reclutamiento y Selección</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Crear Perfil</h1>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            {% if error %}
+            <div class="error">
+                <p>{{ error }}</p>
+            </div>
+            {% endif %}
+            <form method="post" class="form">
+                {% csrf_token %}
+                <label for="anos_exp">Años de Experiencia:</label>
+                <input type="number" name="anos_exp" id="anos_exp" required>
+
+                <label for="conocimientos">Conocimientos Requeridos:</label>
+                <div id="conocimientos-container">
+                    <div class="conocimiento-item">
+                        <input type="text" name="conocimientos" class="conocimiento-input" required>
+                    </div>
+                </div>
+                <button type="button" id="add-conocimiento-btn">Agregar Conocimiento</button>
+
+                <label for="titulos">Títulos Requeridos:</label>
+                <div id="titulos-container">
+                    <div class="titulo-item">
+                        <input type="text" name="titulos" class="titulo-input" required>
+                    </div>
+                </div>
+                <button type="button" id="add-titulo-btn">Agregar Título</button>
+
+                <button type="submit" class="btn">Crear Perfil</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Sistema de Reclutamiento y Selección</p>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('add-conocimiento-btn').addEventListener('click', function() {
+                let container = document.getElementById('conocimientos-container');
+                let newItem = document.createElement('div');
+                newItem.className = 'conocimiento-item';
+                newItem.innerHTML = '<input type="text" name="conocimientos" class="conocimiento-input" required>';
+                container.appendChild(newItem);
+            });
+
+            document.getElementById('add-titulo-btn').addEventListener('click', function() {
+                let container = document.getElementById('titulos-container');
+                let newItem = document.createElement('div');
+                newItem.className = 'titulo-item';
+                newItem.innerHTML = '<input type="text" name="titulos" class="titulo-input" required>';
+                container.appendChild(newItem);
+            });
+        });
+    </script>
+</body>
+</html>

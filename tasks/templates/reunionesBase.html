@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}   
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reuniones Pendientes</title>
+    <link rel="stylesheet" href="{% static 'css/general.css' %}"> 
+</head>
+<body>
+
+<h1>REUNIONES PENDIENTES</h1>
+<div class="container">
+
+    <div class="scrollable-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Reunión</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for r in reuniones%}
+                <tr>
+                    <td>{{r.0}}</td>
+                    <td>{{r.1}}</td>
+                    <td>{{r.2}}</td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+    <footer>© 2024 EVALUACIÓN DE DESEMPEÑO</footer>
+
+
+</body>
+</html>
+

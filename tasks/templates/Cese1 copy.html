@@ -1,0 +1,79 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAEM SAC</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+
+<body>
+    <div class="left-image"></div>
+    <div class="content">
+        <div class="container">
+            <h1>DATOS DE LA PERSONA A CESAR</h1>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <h2>CÓDIGO: </h2>
+                <input type="text" name="buscador_apellido" id="buscador_apellido" placeholder="Ingrese el apellido">
+                <button type="submit" name="action" value="buscar">Buscar</button>
+            </form>
+
+            {% if empleados %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>DNI</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Departamento</th>
+                            <th>Seleccionar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for empleado in empleados %}
+                            <tr>
+                                <td>{{ empleado.0 }}</td>
+                                <td>{{ empleado.1 }}</td>
+                                <td>{{ empleado.2 }}</td>
+                                <td>{{ empleado.3 }}</td>
+                                <td>
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="seleccionar_empleado" value="{{ empleado.4 }}">
+                                        <button type="submit" name="action" value="seleccionar_empleado">Seleccionar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+
+            <form method="POST" action="">
+                {% csrf_token %}
+                <h2>TIPO DE CESE: </h2>
+                <select name="tipo_cese" id="tipo_cese">
+                    <option value="R">Renuncia</option>
+                    <option value="D">Despido</option>
+                    <option value="C">Término de contrato</option>
+                    <option value="J">Jubilación</option>
+                </select>
+
+                <h2>MOTIVO DEL CESE (OPCIONAL): </h2>
+                <input type="text" name="motivo_cese" id="motivo_cese" placeholder="Ingrese el motivo de cese">
+                
+                <h2>FECHA DE CESE: </h2>
+                <input type="date" name="fecha_cese" id="fecha_cese" placeholder="Fecha de cese" required>
+
+                <h3>¿El trabajador posee alguna deuda con la empresa? </h3>
+                <input type="text" name="cant_deuda" id="cant_deuda" placeholder="Cantidad de deuda (opcional)">
+
+                <button type="submit" name="action" value="enviar_cese">Enviar</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %} 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Matricula</title>
+    <link rel="stylesheet" href='{% static "css/estilo_registro.css"%}'>
+</head>
+<body>
+    <header>
+    <div class="container">
+    <h1>LISTA MATRICULA CAPACITACIÓN</h1>
+    </div>
+    </header>
+    <div>
+        <form method="POST" action="/ingresarIdPrograma/" class="form"> {% csrf_token %}
+           <label>Completar Codigo del Programa</label>
+           <input type="text" name="id_programa">
+           <button type="submit" class="btn">Aceptar</button>
+        </form>
+    </div>
+    
+    {%block body%}
+    {%endblock%}
+
+
+</body>
+</html>

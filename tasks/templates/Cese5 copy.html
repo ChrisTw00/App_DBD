@@ -1,0 +1,21 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>PAEM SAC</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <div class="left-image"></div>
+    <div class="content">
+        <div class="container">
+            <h1>
+                TIENE UN CUESTIONARIO DE SALIDA
+            </h1>
+
+            <button onclick="location.href='{% url 'cese6' %}'">Volver a la pestaña de seleccion</button>
+        </div>
+    </div>
+</body>

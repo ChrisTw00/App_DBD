@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleccionar Puesto - Sistema de Reclutamiento y Selección</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Seleccionar Puesto</h1>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <form method="post" action="{% url 'preseleccion_candidatos' %}" class="form">
+                {% csrf_token %}
+                <label for="id_cargo">Puesto:</label>
+                <select name="id_cargo" id="id_cargo" required>
+                    {% for cargo in cargos %}
+                    <option value="{{ cargo.0 }}">{{ cargo.1 }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn">Seleccionar</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Sistema de Reclutamiento y Selección</p>
+        </div>
+    </footer>
+</body>
+</html>

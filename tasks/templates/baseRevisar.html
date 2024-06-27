@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revisar Cuestionario</title>
+    <link rel="stylesheet" href="{% static 'css/general.css' %}">
+</head>
+<body>
+
+    <h1>REVISAR CUESTIONARIOS</h1>
+
+<div class="container">
+    <div class="form-group"> 
+        <form action="/revisar/apellido/" method="POST"> {% csrf_token %}
+            <label for="apellido">BUSCAR POR APELLIDO:</label>
+            <input type="text" id="apellido" name="apellido">
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+
+    <div class="form-group">
+        <label for="tipo">MOSTRAR POR TIPO:</label>
+        <select id="tipo" name="id_tipo_cuestionario" onchange="if (this.value) window.location.href = this.value;">
+            <option disabled selected>Seleccione el tipo</option>
+            {% for t in tiposCuestionario %}
+            <option value="/revisar/{{t.0}}/">{{t.1}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="calificacion">MOSTRAR POR CALIFICACIÓN:</label>
+        <select id="calificacion" name="calificacion" onchange="if (this.value) window.location.href = this.value;">
+            <option disabled selected>Seleccione la calificación</option>
+            {% for t in tiposRespuesta %}
+            <option value="/responder/calificacion/{{t.0}}/">{{t.1}}</option>
+            {% endfor %}
+            <option value="/responder/calificacion/NULL/">Sin Calificación</option>
+        </select>
+    </div>
+
+    {%block body%}
+    {%endblock%}
+
+    <footer>© 2024 EVALUACIÓN DE DESEMPEÑO</footer>
+
+</body>
+</html>
+
+
+
+
+

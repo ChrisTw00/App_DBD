@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Asistencia</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="time"],
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-container a,
+        .btn-container input[type="submit"] {
+            width: 48%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .btn-container a:hover,
+        .btn-container input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Registrar Asistencia</h1>
+    </header>
+
+    <main class="container">
+        <form method="POST" action="/InsertarAsistencia/">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="departamento">Departamento:</label>
+                <select id="departamento" name="ID_Departamento" required>
+                    <option value="">Seleccione un departamento</option>
+                    <option value="1">Producción de Fruta Fresca</option>
+                    <option value="2">Recepción y Almacenamiento de Fruta</option>
+                    <option value="3">Control de Calidad</option>
+                    <option value="4">Producción de Mermelada</option>
+                    <option value="5">Producción de Fruta Confitada</option>
+                    <option value="6">Investigación y Desarrollo</option>
+                    <option value="7">Logística y Distribución</option>
+                    <option value="8">Marketing y Ventas</option>
+                    <option value="9">Finanzas y Contabilidad</option>
+                    <option value="10">Recursos Humanos</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="fecha">Fecha:</label>
+                <input type="date" id="fecha" name="Fecha" required>
+            </div>
+
+            <div class="form-group">
+                <label for="hora_entrada">Hora de Entrada:</label>
+                <input type="time" id="hora_entrada" name="Hora_entrada" required>
+            </div>
+
+            <div class="form-group">
+                <label for="hora_salida">Hora de Salida:</label>
+                <input type="time" id="hora_salida" name="Hora_salida" required>
+            </div>
+
+            <div class="form-group">
+                <label for="empleado">Empleado:</label>
+                <select id="empleado" name="ID_Empleado" required>
+                    <option value="">Seleccione un empleado</option>
+                    <option data-departamento="1" value="20200001">Juan Pérez</option>
+                    <option data-departamento="1" value="20230002">Ana García</option>
+                    <option data-departamento="1" value="20210001">Juan López</option>
+                    <option data-departamento="1" value="20210003">Pedro Rodríguez</option>
+                    <option data-departamento="2" value="20210002">María García</option>
+                    <option data-departamento="2" value="20210005">Luis Hernández</option>
+                    <option data-departamento="2" value="20230008">Elena Díaz</option>
+                    <option data-departamento="2" value="20230009">David Sánchez</option>
+                    <option data-departamento="3" value="20210004">Ana Martínez</option>
+                    <option data-departamento="3" value="20210006">Laura González</option>
+                    <option data-departamento="3" value="20230010">Sara Martín</option>
+                    <option data-departamento="3" value="20230012">Paula Gutiérrez</option>
+                    <option data-departamento="4" value="20230005">Pedro Rodríguez</option>
+                    <option data-departamento="4" value="20230011">Javier Ruiz</option>
+                    <option data-departamento="5" value="20230013">Daniel López</option>
+                    <option data-departamento="5" value="20230012">Paula Gutiérrez</option>
+                    <option data-departamento="6" value="20230014">Lucía Hernández</option>
+                    <option data-departamento="6" value="20230015">Alejandro Pérez</option>
+                    <option data-departamento="7" value="20210007">Carlos Ramírez</option>
+                    <option data-departamento="7" value="20220009">Luis Ramírez</option>
+                    <option data-departamento="8" value="20210008">Diana Vargas</option>
+                    <option data-departamento="8" value="20220010">Carmen González</option>
+                    <option data-departamento="9" value="20210009">Roberto Paredes</option>
+                    <option data-departamento="9" value="20210012">Pablo Mendoza</option>
+                    <option data-departamento="9" value="20210013">Carla Cruz</option>
+                    <option data-departamento="10" value="20210010">Sandra Torres</option>
+                    <option data-departamento="10" value="20210014">Patricia Salazar</option>
+                    <option data-departamento="10" value="20210015">Andrea Castro</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="estado">Estado:</label>
+                <input type="text" id="estado" name="Estado" placeholder="Inserte el estado de la asistencia" required>
+            </div>
+
+            <div class="form-group">
+                <label for="observacion">Observación:</label>
+                <input type="text" id="observacion" name="Observacion" placeholder="Ingrese alguna observación"
+                    required>
+            </div>
+
+            <div class="form-group btn-container">
+                <input type="submit" value="Insertar asistencia">
+                <a href="/" class="btn-back">Volver al Menú Principal</a>
+            </div>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; Inversiones Paem SAC</p>
+    </footer>
+
+    <script>
+        $(document).ready(function () {
+            $('#departamento').change(function () {
+                var departamentoID = $(this).val();
+                $('#empleado option').each(function () {
+                    if ($(this).data('departamento') == departamentoID) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+                $('#empleado').val('');
+                $('#empleado option:first').show();
+            });
+        });
+    </script>
+</body>
+
+</html>

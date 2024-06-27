@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Vacante - Sistema de Reclutamiento y Selección</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Crear Vacante</h1>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            {% if error %}
+            <div class="error">
+                <p>{{ error }}</p>
+            </div>
+            {% endif %}
+            <form method="post" class="form">
+                {% csrf_token %}
+                <h2>Detalles de la Vacante</h2>
+                <label for="id_departamento">Departamento:</label>
+                <select name="id_departamento" id="id_departamento" required>
+                    {% for departamento in departamentos %}
+                        <option value="{{ departamento.0 }}">{{ departamento.1 }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="id_cargo">Cargo:</label>
+                <select name="id_cargo" id="id_cargo" required>
+                    {% for cargo in cargos %}
+                        <option value="{{ cargo.0 }}">{{ cargo.1 }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="ubicacion">Ubicación:</label>
+                <select name="ubicacion" id="ubicacion" required>
+                    {% for ubicacion in ubicaciones %}
+                        <option value="{{ ubicacion.0 }}">{{ ubicacion.0 }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="beneficio">Beneficio:</label>
+                <input type="text" name="beneficio" id="beneficio" required>
+
+                <label for="salario">Salario:</label>
+                <input type="number" name="salario" id="salario" required>
+
+                <label for="horario">Horario:</label>
+                <select name="horario" id="horario" required>
+                    {% for horario in horarios %}
+                        <option value="{{ horario }}">{{ horario }}</option>
+                    {% endfor %}
+                </select>
+
+                <h2>Perfil Requerido</h2>
+                <label for="anos_exp">Años de Experiencia:</label>
+                <input type="number" name="anos_exp" id="anos_exp" required>
+
+                <label for="conocimientos">Conocimientos Requeridos:</label>
+                <div id="conocimientos-container">
+                    <div class="conocimiento-item">
+                        <input type="text" name="conocimientos" class="conocimiento-input" required>
+                    </div>
+                </div>
+                <button type="button" id="add-conocimiento-btn">Agregar Conocimiento</button>
+
+                <label for="titulos">Títulos Requeridos:</label>
+                <div id="titulos-container">
+                    <div class="titulo-item">
+                        <input type="text" name="titulos" class="titulo-input" required>
+                    </div>
+                </div>
+                <button type="button" id="add-titulo-btn">Agregar Título</button>
+
+                <button type="submit" class="btn">Crear Vacante</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Sistema de Reclutamiento y Selección</p>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('add-conocimiento-btn').addEventListener('click', function() {
+                let container = document.getElementById('conocimientos-container');
+                let newItem = document.createElement('div');
+                newItem.className = 'conocimiento-item';
+                newItem.innerHTML = '<input type="text" name="conocimientos" class="conocimiento-input" required>';
+                container.appendChild(newItem);
+            });
+
+            document.getElementById('add-titulo-btn').addEventListener('click', function() {
+                let container = document.getElementById('titulos-container');
+                let newItem = document.createElement('div');
+                newItem.className = 'titulo-item';
+                newItem.innerHTML = '<input type="text" name="titulos" class="titulo-input" required>';
+                container.appendChild(newItem);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Resultados</title>
+    <link rel="stylesheet" href="{% static 'css/general.css' %}"> 
+</head>
+<body>
+    <h1>MIS RESULTADOS </h1>
+    <div class="container">
+        <div class="form-group">
+            <form action="/ingresarID/" method="POST"> {% csrf_token %}
+                <label for="id">Ingrese su ID: </label>
+                <input type="text" id="id" name="id_empleado">
+                <button type="submit">Buscar</button>  
+            </form>
+        </div>
+
+        <div class="form-group">
+            <form action="/ingresarDNI/" method="POST"> {% csrf_token %}
+                <label for="dni">Ingrese su DNI: </label>
+                <input type="text" id="dni" name="dni">
+                <button type="submit">Buscar</button>  
+            </form>
+
+        </div>
+
+        <div class="form-group">
+            <form action="/ingresarApellido/" method="POST"> {% csrf_token %}
+                <label for="apellido">Ingrese su apellido: </label>
+                <input type="text" id="apellido" name="apellido">
+                <button type="submit">Buscar</button>  
+            </form>
+        </div>
+
+
+        {%block body%}
+        {%endblock%}
+
+    </div>
+
+    <footer>© 2024 EVALUACIÓN DE DESEMPEÑO</footer>
+
+
+</body>
+</html>
+
+
+
+
+

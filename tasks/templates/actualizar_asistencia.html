@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %} 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Asistencia</title>
+    <link rel="stylesheet" href='{% static "css/estilo_registro.css"%}'>
+</head>
+<body>
+    <header>
+        <div class="container">
+    <h1>Registar Asistencia</h1>
+    </div>
+    </header>
+    <div>
+        <form method="POST" action="/ingresarIdSesion/" class="form"> {% csrf_token %}
+           <label>Completar id Sesion</label>
+           <input type="text" name="id_sesion">
+           <label>Completar Fecha</label>
+           <input type="date" name="fecha_sesion">
+           <label>Ingrese Codigo Empleado</label>
+           <input type="number" placeholder="2020999" name="codigo_empleado">
+           <label>Ingrese Asistencia</label>
+            <input type="text" placeholder="Asistio/Falto" name="asistencia">
+           <button type="submit" class="btn">Aceptar</button>
+        </form>
+    </div>
+    {%block body%}
+    {%endblock%}
+
+
+</body>
+</html>

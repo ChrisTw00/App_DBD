@@ -1,0 +1,77 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>PAEM SAC</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <div class="left-image"></div>
+    <div class="content">
+        <div class="container">
+            <h1>FICHA DE CESE</h1>
+            <header>
+                <div class="container">
+                    <h1>Ficha de cese</h1>
+                </div>
+            </header>
+            <main>
+                <div class="container">
+                    <table class="table">
+                        <tbody>
+                            {% for revisado in revisar %}
+                                <tr>
+                                    <td>Código del cesado</td>
+                                    <td>{{ revisado.0 }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Nombre del cesado</td>
+                                    <td>{{ revisado.1 }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Departameno del cesado</td>
+                                    <td>{{ revisado.2 }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Cargo del cesado</td>
+                                    <td>{{ revisado.3 }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Fecha de cese</td>
+                                    <td>{{ revisado.4 }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Tipo de cese</td>
+                                    <td>{{ revisado.5 }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Motivo de cese</td>
+                                    <td>{{ revisado.6 }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Código del supervisor a cargo del cese</td>
+                                    <td>{{ revisado.7 }}</td>
+                                </tr>
+                            {% endfor %}
+
+                            {% for beneficio in beneficios %}
+                                <tr>
+                                    <td>Suma de beneficios y descuentos</td>
+                                    <td>{{ beneficio.0 }}</td>
+                                </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <button onclick="location.href='{% url 'cese1' %}'">REGRESAR</button>
+                <button onclick="location.href='{% url 'cese3' %}'">CONFIRMAR</button>
+                
+            </main>
+        </div>
+    </div>
+</body>
+</html>

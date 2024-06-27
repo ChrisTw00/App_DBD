@@ -1,0 +1,45 @@
+{%extends "baseResponder.html"%}
+
+{%block body%}
+<form action="/enviarRespuestas/" method="POST">{% csrf_token %}
+    <div class="form-group">
+        <label for="id">Ingrese su ID:</label>
+        <input type="text" id="id" name="id_empleado">
+    </div>
+
+    <input type="hidden" name="id_tipo_cuestionario" value="{{ id_tipo_cuestionario }}">
+
+    <div class="scrollable-table">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>PREGUNTAS</th>
+                <th>RESPUESTA</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for p in preguntas%}
+            <tr>
+                <td>{{p.0}}</td>
+                <td>{{p.1}}</td>
+                <td>
+                    <select id="tipo" name="respuesta_{{p.0}}">
+                        <option disabled selected>Seleccione una opción: </option>
+                    {% for t in tiposRespuesta %}
+                        <option value="{{t.0}}">{{t.1}}</option>
+                    {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+    </div>
+
+
+    <div class="submit-btn">
+        <button type="submit">ENVIAR RESPUESTAS</button>
+    </div>
+</form>
+{%endblock%}

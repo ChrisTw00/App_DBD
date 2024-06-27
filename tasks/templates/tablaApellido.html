@@ -1,0 +1,32 @@
+{%extends "baseRevisar.html"%}
+
+{%block body%}
+<table>
+    <thead>
+        <tr>
+            <th>ID EMPLEADO</th>
+            <th>APELLIDO</th>
+            <th>NOMBRE</th>
+            <th>CALIFICACIÓN</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for e in tablaApellido %}
+        <tr>
+            <td>{{e.0}}</td>
+            <td>{{e.1}}</td>
+            <td>{{e.2}}</td>
+            <td>{{e.3}}</td>
+            <td class="report-btn">
+                <button onclick="window.location.href='/reporte/{{e.0}}'">REALIZAR REPORTE</button>
+            </td>
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>
+</div>
+{%endblock%}
+
+
+

@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>PAEM SAC</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+
+<body>
+    <div class="left-image"></div>
+    <div class="content">
+        <div class="container">
+            <header>
+                <h1>CUESTIONARIO DE CESE</h1>
+            </header>
+            <div class="container">
+                <main>
+                    <div class="container">
+                        <h1>Preguntas</h1>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <table class="table">
+                                <tbody>
+                                    {% for pregunta in preguntas %}
+                                    <tr>
+                                        <td>Pregunta {{ forloop.counter }}:</td>
+                                        <td>{{ pregunta.0 }}</td>
+                                        <td>
+                                            <input type="text" name="respuesta_{{ forloop.counter }}" id="respuesta_{{ forloop.counter }}" placeholder="Ingrese su respuesta">
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <button type="submit" name="action" value="confirmar">CONFIRMAR</button>
+                        </form>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+</body>

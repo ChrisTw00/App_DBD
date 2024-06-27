@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %} 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Sesion</title>
+    <link rel="stylesheet" href='{% static "css/estilo_registro.css"%}'>
+</head>
+<body>
+    <h1>Ingrese Sesiones</h1>
+    <form action="/registrar_sesion/" method="POST" class="form">
+        {% csrf_token %}
+        <div>
+            <label>Fecha</label>
+            <input type="date" name="fecha_sesion" required>
+        </div>
+        <div>
+            <label>Hora</label>
+            <input type="time" name="hora_sesion" required >
+        </div>
+        <div>
+            <button type="submit" class="btn">Agregar</button>
+        </div>
+
+    </form>
+    <footer>
+        <div class="containerf">
+            <p>&copy; 2024 Sistema de Capacitacion</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{% extends "actualizar_asistencia_2.html" %}
+
+{%block contend%}
+
+<form action="/actualizar_asistencia_funcion/" method="POST" > {% csrf_token %}
+
+    <input type="number" placeholder="2020999" name="codigo_empleado">
+    <input type="text" placeholder="Asistio/Falto" name="asistencia">
+    <button type="submit" class="btn">Agregar</button>
+    </form>
+
+{%endblock%}

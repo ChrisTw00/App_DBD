@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Principal</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .menu-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-list li {
+            margin-bottom: 10px;
+        }
+
+        .menu-list li a {
+            display: block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .menu-list li a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Menú Principal</h1>
+    </header>
+
+    <main class="container">
+        <section>
+            <h2>Seleccione una Opción</h2>
+            <ul class="menu-list">
+                <li><a href="/?show_form=true">Registrar asistencia</a></li>
+                <li><a href="/GenerarReporteAsistencia">Generar reporte de asistencia</a></li>
+                <li><a href="/SolicitarLicencia">Solicitar licencia</a></li>
+                <li><a href="/SolicitarPermiso">Solicitar permiso</a></li>
+                <li><a href="/AceptarRechazarSolicitudes">Aceptar/Rechazar licencias</a></li>
+                <li><a href="/aprobar_rechazar_permisos">Aceptar/Rechazar permisos</a></li>
+            </ul>
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; Inversiones Paem SAC</p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+{% load static %} 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear un Cuestionario</title>
+<link rel="stylesheet" href="{% static 'css/general.css' %}">
+</head>
+<body>
+
+    <header>
+        <h1>CREAR UN CUESTIONARIO</h1>
+    </header>
+
+    <div class="container">
+        <form action="/botonCrear/" method="POST"> {% csrf_token %}
+            
+            <div>
+                <label>Ingrese su id: </label>
+                <input type="text" id="id" name="id_especialista" placeholder="Ingrese su ID">
+            </div>
+            <div>
+                <label>Seleccione el tipo de cuestionario</label>
+                <select id="tipo" name="id_tipo_cuestionario">
+                    <option disabled selected>Seleccione el tipo de cuestionario: </option>
+                {% for t in tiposCuestionario %}
+                    <option value="{{t.0}}">{{t.1}}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <div>
+                <button type="submit">Crear</button>
+            </div>
+        </form>
+        <div>
+            <button onclick="window.location.href='/editar/'">Editar</button>
+        </div>
+        <div class="note">
+                Nota: No debe haberse creado otro cuestionario del mismo tipo, de lo contrario, solo se editará el existente.
+            </div> 
+    </div>
+
+    <footer>© 2024 EVALUACIÓN DE DESEMPEÑO</footer>
+</body>
+</html>

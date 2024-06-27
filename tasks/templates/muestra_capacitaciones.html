@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %} 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPACITACIONES SOLICITADAS</title>
+    <link rel="stylesheet" href='{% static "css/estilo_registro.css"%}'>
+</head>
+<body>
+    <header>
+        <div class="container">
+    <h1>CAPACITACIONES SOLICITADAS</h1>
+        </div>
+    </header>
+    <table border="1" class="table">
+        <tr>
+            <th>Codigo Programa</th>
+            <th>Departamento</th>
+            <th>Numero De Sesiones</th>
+            <th>Fecha Programa</th>
+            <th>Total Empleados</th>
+            <th>Motivo</th>
+        </tr>
+        {% for solicitudes in solicitudes%}
+        <tr>
+            <td>{{solicitudes.0}}</td>
+            <td>{{solicitudes.1}}</td>
+            <td>{{solicitudes.2}}</td>
+            <td>{{solicitudes.3}}</td>
+            <td>{{solicitudes.4}}</td>
+            <td>{{solicitudes.5}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>

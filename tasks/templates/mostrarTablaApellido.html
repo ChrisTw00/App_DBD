@@ -1,0 +1,26 @@
+{%extends "baseMisResultados.html"%}
+
+{%block body%}
+
+<table>
+    <thead>
+       <tr>
+           <th>Apellido</th>
+           <th>Nombre</th>
+           <th>Resultados</th>
+       </tr>
+   </thead>
+   <tbody>
+       {% for e in empleados %}
+       <tr>
+           <td>{{e.0}}</td>
+           <td>{{e.1}}</td>
+           <td class="report-btn">
+            <button onclick="window.location.href='/misResultadosID/{{e.2}}'">Ver resultados</button>
+        </td>
+       </tr>
+       {%endfor%}
+   </tbody>
+
+</table>
+{%endblock%}

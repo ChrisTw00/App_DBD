@@ -1,0 +1,22 @@
+{%extends "lista_matricula_cap.html"%}
+
+{%block body%}
+{% load static %} 
+<div>
+    <table border="1" class="table">
+        <tr>
+            <th>Nombre Completo</th>
+            <th>Codigo</th>
+            <th>Estado Matricula</th>
+        </tr>
+        {% for matricula in matricula%}
+        <tr>
+            <th>{{matricula.0}}</th>
+            <th>{{matricula.1}}</th>
+            <th>{{matricula.2}}</th>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+{%endblock%}

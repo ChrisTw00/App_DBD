@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listar Vacantes - Sistema de Reclutamiento y Selección</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Listar Vacantes</h1>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID Vacante</th>
+                        <th>Ubicación</th>
+                        <th>Beneficio</th>
+                        <th>Salario</th>
+                        <th>Horario</th>
+                        <th>Departamento</th>
+                        <th>Cargo</th>
+                        <th>Años de Experiencia</th>
+                        <th>Conocimientos</th>
+                        <th>Títulos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vacante in vacantes %}
+                    <tr>
+                        <td>{{ vacante.0 }}</td>
+                        <td>{{ vacante.1 }}</td>
+                        <td>{{ vacante.2 }}</td>
+                        <td>{{ vacante.3 }}</td>
+                        <td>{{ vacante.4 }}</td>
+                        <td>{{ vacante.5 }}</td>
+                        <td>{{ vacante.6 }}</td>
+                        <td>{{ vacante.7 }}</td>
+                        <td>
+                            {% for conocimiento in vacante.8 %}
+                                {{ conocimiento }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for titulo in vacante.9 %}
+                                {{ titulo }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Sistema de Reclutamiento y Selección</p>
+        </div>
+    </footer>
+</body>
+</html>

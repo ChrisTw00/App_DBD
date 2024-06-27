@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitar Licencia</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="number"],
+        input[type="date"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-container a,
+        .btn-container button {
+            width: 48%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .btn-container a:hover,
+        .btn-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <h1>¿Quieres hacer una petición de solicitud de licencia?</h1>
+    </header>
+
+    <main class="container">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="ID_Empleado">ID Empleado:</label>
+                <input type="number" id="ID_Empleado" name="ID_Empleado" required>
+            </div>
+
+            <div class="form-group">
+                <label for="Motivo">Motivo:</label>
+                <textarea id="Motivo" name="Motivo" rows="2" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="Fecha_inicio">Fecha de Inicio:</label>
+                <input type="date" id="Fecha_inicio" name="Fecha_inicio" required>
+            </div>
+
+            <div class="form-group">
+                <label for="Fecha_fin">Fecha de Fin:</label>
+                <input type="date" id="Fecha_fin" name="Fecha_fin" required>
+            </div>
+
+            <div class="form-group">
+                <label for="ID_Supervisor">ID Supervisor:</label>
+                <input type="number" id="ID_Supervisor" name="ID_Supervisor" required>
+            </div>
+
+            <div class="form-group">
+                <label for="Tipo">Tipo de Licencia:</label>
+                <select id="Tipo" name="Tipo" required>
+                    <option value="Personal">Personal</option>
+                    <option value="Médica">Médica</option>
+                    <option value="Estudios">Estudios</option>
+                    <option value="Otro">Otro</option>
+                </select>
+            </div>
+
+            <div class="form-group btn-container">
+                <button type="submit">Confirmar</button>
+                <a href="/MenuPrincipal" class="btn-back">Volver al Menú Principal</a>
+            </div>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; Inversiones Paem SAC</p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capacitacion</title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %} 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Desempeño</title>
+    <link rel="stylesheet" href='{% static "css/estilo_registro.css"%}'>
+
+</head>
+<body>
+    <header>
+    <div class="container">
+    <h1 >Menú Capacitacion</h1>
+    </div>
+    </header>
+    <div class="container">
+        <u1 class="menu">
+            <div class="container">
+                <button onclick="window.location.href='/registro_empleado/'" class="btn">Generar Una Capacitacion</button>
+            </div> 
+            <div class="container"> 
+                <button onclick="window.location.href='/matricula_empleado/'" class="btn">Matricular Empleados</button>
+            </div>     
+            <div class="container">     
+            <button onclick="window.location.href='/lista_matricula/'" class="btn">Mostrar Matriculados</button>
+            </div>  
+            <div class="container" >
+            <button onclick="window.location.href='/muestra_capacitaciones/'" class="btn">Mostrar Registro de Capacitaciones</button>
+            </div>  
+            <div class="container">     
+            <button onclick="window.location.href='/actualizar_asistencia/'" class="btn">Actualizar Asistencias</button>
+                </div>
+            </div> 
+        </u1>
+    <footer>
+        <div class="containerf">
+            <p>&copy; 2024 Sistema de Capacitacion</p>
+        </div>
+    </footer>
+</body>
+</html>

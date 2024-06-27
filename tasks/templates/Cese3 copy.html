@@ -1,0 +1,34 @@
+{% load static %}
+<script src="{% static 'JS/Modal_cese.js' %}" defer></script>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>PAEM SAC</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <div class="left-image"></div>
+    <div class="content">
+        <div class="container">
+            <h1>
+                REGISTRAR PREGUNTAS DEL CUESTIONARIO
+            </h1>
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit" name="action" value="preguntas_predeterminadas">Usar prguntas predeterminadas</button>
+            </form>
+
+            <h2>Inserta tus propias preguntas:</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="text" name="pregunta_nueva" id="pregunta_nueva" placeholder="Ingrese la pregunta nueva">
+                <p>Agregar una pregunta más</p>
+                <button type="submit" name="action" value="enviar_pregunta">+</button>
+            </form>
+
+            <button onclick="location.href='{% url 'cese4' %}'">CONFIRMAR</button>
+        </div>
+    </div>
+</body>

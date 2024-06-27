@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Postulante</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Detalles del Postulante</h1>
+        </div>
+    </header>
+    <main>
+        <div class="container-detalles">
+            <section class="datos-candidato">
+                <h2>Datos del Candidato</h2>
+                <p><strong>Nombre:</strong> {{ candidato.nombre_cand }}</p>
+                <p><strong>Apellido:</strong> {{ candidato.apell_cand }}</p>
+                <p><strong>Fecha de Nacimiento:</strong> {{ candidato.fecha_nac_cand }}</p>
+                <p><strong>Dirección:</strong> {{ candidato.direccion_cand }}</p>
+                <p><strong>Correo:</strong> {{ candidato.correo_cand }}</p>
+                <p><strong>Teléfono:</strong> {{ candidato.num_telefono }}</p>
+            </section>
+
+            <section class="datos-curriculum">
+                <h2>Datos del Curriculum</h2>
+                <p><strong>Grado de Educación:</strong> {{ curriculum.grado_educacion }}</p>
+                <p><strong>Curriculum PDF:</strong> <a href="{{ curriculum.archivo_pdf.url }}" target="_blank">Ver PDF</a></p>
+            </section>
+
+            <section class="experiencias-laborales">
+                <h2>Experiencias Laborales</h2>
+                <ul>
+                    {% for experiencia in experiencias %}
+                    <li class="experiencia-item">
+                        <p><strong>Lugar:</strong> {{ experiencia.0 }}</p>
+                        <p><strong>Cargo:</strong> {{ experiencia.1 }}</p>
+                        <p><strong>Tiempo:</strong> {{ experiencia.2 }}</p>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            <section class="certificados">
+                <h2>Certificados</h2>
+                <ul>
+                    {% for certificado in certificados %}
+                    <li class="certificado-item">
+                        <p><strong>Curso:</strong> {{ certificado.0 }}</p>
+                        <p><strong>Nivel:</strong> {{ certificado.1 }}</p>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Sistema de Reclutamiento y Selección</p>
+        </div>
+    </footer>
+</body>
+</html>

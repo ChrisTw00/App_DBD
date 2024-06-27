@@ -1,0 +1,61 @@
+{%extends "baseAprobar.html"%}
+
+{% block body%}
+
+    <div class="scrollable-table">
+    <table>
+        <caption>Cuestionario actual: </caption>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Preguntas</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in preguntas %}
+            <tr>
+                <td>{{p.0}}</td>
+                <td>{{p.1}}</td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+
+    </div>
+
+    <div>
+        <div>
+            {% for e in estadoEnvio %} 
+            <label>Estado del envío: </label>
+            <span>{{e.0}}</span>
+            {%endfor%}
+        </div>
+
+        <div>
+            {% for e in estadoAprobacion %} 
+            <label>Estado de aprobación: </label>
+            <span>{{e.0}}</span>
+            {%endfor%}
+        </div>
+
+        <form action="/enviarAprobacion/" method="POST"> {% csrf_token %}
+            <label>Seleccione el estado de aprobación: </label>
+            <select id="tipo" name="id_tipo_estado">
+                <option disabled selected>Seleccione el tipo de estado de aprobación: </option>
+            {% for t in tiposEstado %}
+                <option value="{{t.0}}">{{t.1}}</option>
+            {% endfor %}
+            </select>
+            
+            <div>
+                <input type="hidden" name="id_tipo_cuestionario" value="{{ id_tipo_cuestionario }}">
+                <button type="submit">Enviar estado de aprobación</button>
+            </form>
+
+            </div>
+
+    
+    </div>
+
+
+{%endblock%}

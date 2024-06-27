@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+{% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realizar Reporte</title>
+<link rel="stylesheet" href="{% static 'css/general.css' %}">
+</head>
+<body>
+    <h1>REALIZAR REPORTE</h1>
+
+<div class="container">
+
+    {% for d in datosEmpleado %}
+    <div>
+        <label>ID: </label>
+        <span>{{d.0}}</span>
+    </div>
+
+    <div>
+        <label>Apellido: </label>
+        <span>{{d.1}}</span>
+    </div>
+
+    <div>
+        <label>Nombre: </label>
+        <span>{{d.2}}</span>
+    </div>
+
+    <div>
+        <label>ID_Cuestionario_Empleado: </label>
+        <span>{{d.3}}</span>
+    </div>
+
+    <div>
+        <label>Tipo de Cuestionario: </label>
+        <span>{{d.4}}</span>
+    </div>
+    {%endfor%}
+
+    <table>
+         <thead>
+            <tr>
+                <th>Nº</th>
+                <th>Pregunta</th>
+                <th>Respuesta</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in tablaRespuestas %}
+            <tr>
+                <td>{{r.0}}</td>
+                <td>{{r.1}}</td>
+                <td>{{r.2}}</td>
+            </tr>
+            {%endfor%}
+        </tbody>
+
+    </table>
+
+
+    <form action="/confirmarReporte/" method="POST">{% csrf_token %}
+        <div class="form-group">
+            <label for="id">Ingrese su ID: </label>
+            <input type="text" id="id" name="id_evaluador">
+        </div>
+
+        <div class="form-group">
+            <label for="calificacion">Calificación:</label>
+            <select id="calificacion" name="calificacion">
+                <option disabled selected>Seleccione la calificación</option>
+                {% for t in tiposCalificacion %}
+                <option value="{{t.0}}">{{t.1}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="id">Redactar retroalimentación: </label>
+            <input type="text" id="id" name="retroalimentacion">
+        </div>
+    
+        <input type="hidden" name="id_empleado" value="{{ id_empleado }}">
+
+        <div class="submit-btn">
+            <button type="submit">Confirmar reporte</button>
+        </div>
+    </form>
+</div>
+    
+
+<footer>© 2024 EVALUACIÓN DE DESEMPEÑO</footer>
+
+
+</body>
+</html>
+
+
+

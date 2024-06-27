@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprobar/Rechazar Licencias</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-container button,
+        .btn-container a {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-container button:hover,
+        .btn-container a:hover {
+            background-color: #45a049;
+        }
+
+        .btn-container a {
+            line-height: 36px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Aprobar/Rechazar Licencias</h1>
+    </header>
+
+    <main class="container">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        {% if licencias %}
+        <form method="post">
+            {% csrf_token %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Seleccionar</th>
+                        <th>ID Licencia</th>
+                        <th>Tipo</th>
+                        <th>Estado</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Fin</th>
+                        <th>Nombre Empleado</th>
+                        <th>Apellido Empleado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for licencia in licencias %}
+                    <tr>
+                        <td><input type="checkbox" name="licencias" value="{{ licencia.0 }}"></td>
+                        <td>{{ licencia.0 }}</td>
+                        <td>{{ licencia.1 }}</td>
+                        <td>{{ licencia.2 }}</td>
+                        <td>{{ licencia.3 }}</td>
+                        <td>{{ licencia.4 }}</td>
+                        <td>{{ licencia.5 }}</td>
+                        <td>{{ licencia.6 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="btn-container">
+                <button type="submit" name="accion" value="aprobar">Aprobar</button>
+                <button type="submit" name="accion" value="rechazar">Rechazar</button>
+                <a href="/MenuPrincipal">Volver al Menú Principal</a>
+            </div>
+        </form>
+        {% else %}
+        <p>No hay licencias pendientes.</p>
+        {% endif %}
+    </main>
+
+    <footer>
+        <p>&copy; Inversiones Paem SAC</p>
+    </footer>
+</body>
+
+</html>

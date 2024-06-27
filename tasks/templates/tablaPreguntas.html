@@ -1,0 +1,67 @@
+{%extends "baseEditar.html"%}
+
+{% block body%}
+
+<form action="/agregarPregunta/" method="POST"> {% csrf_token %}
+    <div>
+        <label>Ingrese una pregunta:  </label>
+        <input type="text" id="pregunta" name="enunciado_pregunta" placeholder="Ingrese una pregunta">
+
+        <input type="hidden" name="id_tipo_cuestionario" value="{{id_tipo_cuestionario}}">
+
+        <button type="submit">Agregar</button>
+    </div>
+
+    <div class="note">
+        Nota: La respuesta de la pregunta debe ser "muy negativo", "negativo", "positivo" o "muy positivo".
+    </div>
+
+</form>
+
+<div class="scrollable-table">
+    <table>
+        <caption>Cuestionario actual: </caption>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Preguntas</th>
+            </tr>
+        </thead>
+
+        {% for p in preguntas %}
+        <tbody>
+            <tr>
+                <td>{{p.0}}</td>
+                <td>{{p.1}}</td>
+                <td>
+                    <form action="/borrarPregunta/{{p.0}}/" method="POST"> {% csrf_token %}
+                        <input type="hidden" name="id_tipo_cuestionario" value="{{ id_tipo_cuestionario }}">
+                        <button type="submit">Borrar</button>  
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+</div>
+
+<div>
+    {% for e in estadoEnvio %} 
+    <label>Estado del envío: </label>
+    <span>{{e.0}}</span>
+    {%endfor%}
+</div>
+
+<div>
+    {% for e in estadoAprobacion %} 
+    <label>Estado de aprobación: </label>
+    <span>{{e.0}}</span>
+    {%endfor%}
+</div>
+
+<form action="/enviarGerencia/" method="POST"> {% csrf_token %}
+    <input type="hidden" name="id_tipo_cuestionario" value="{{ id_tipo_cuestionario }}">
+    <button type="submit">Enviar a Gerencia</button>
+</form>
+
+{%endblock%}

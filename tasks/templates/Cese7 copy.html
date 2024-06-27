@@ -1,0 +1,23 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>PAEM SAC</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <div class="left-image"></div>
+    <div class="content">
+        <div class="container">
+            <h1>
+                Gracias por responder el cuestionario
+            </h1>
+            <p>
+                Usaremos sus respuestas para mejorar como empresa. Gracias por haber trabajado con nosotros, éxitos.
+            </p>
+            <button onclick="location.href='{% url 'login' %}'">Volver a la pestaña inicial</button>
+        </div>
+    </div>
+</body>

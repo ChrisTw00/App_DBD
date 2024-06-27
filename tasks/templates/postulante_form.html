@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Postulante - Sistema de Reclutamiento y Selección</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Registrar Postulante</h1>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <form method="post" enctype="multipart/form-data" class="form">
+                {% csrf_token %}
+                <h2>Datos del Candidato</h2>
+                <label for="nombre_cand">Nombre:</label>
+                <input type="text" name="nombre_cand" id="nombre_cand" required>
+
+                <label for="apell_cand">Apellido:</label>
+                <input type="text" name="apell_cand" id="apell_cand" required>
+
+                <label for="fecha_nac_cand">Fecha de Nacimiento:</label>
+                <input type="date" name="fecha_nac_cand" id="fecha_nac_cand" required>
+
+                <label for="direccion_cand">Dirección:</label>
+                <input type="text" name="direccion_cand" id="direccion_cand" required>
+
+                <label for="correo_cand">Correo:</label>
+                <input type="email" name="correo_cand" id="correo_cand" required>
+
+                <label for="num_telefono">Número de Teléfono:</label>
+                <input type="text" name="num_telefono" id="num_telefono" required>
+
+                <h2>Datos del Curriculum</h2>
+                <label for="grado_educacion">Grado de Educación:</label>
+                <select name="grado_educacion" id="grado_educacion" required>
+                    <option value="Secundaria">Educación Secundaria</option>
+                    <option value="Bachillerato">Bachillerato</option>
+                    <option value="Tecnico">Educación Técnica</option>
+                    <option value="Universitario">Educación Universitaria</option>
+                    <option value="Postgrado">Postgrado</option>
+                </select>
+
+                <label for="institucion_educativa">Institución Educativa:</label>
+                <input type="text" name="institucion_educativa" id="institucion_educativa" required>
+
+                <label for="archivo_pdf">Archivo PDF:</label>
+                <input type="file" name="archivo_pdf" id="archivo_pdf" accept="application/pdf" required>
+
+                <h2>Experiencia Laboral</h2>
+                <div id="experiencias-container">
+                    <div class="experiencia-item">
+                        <label for="nombre_lugar">Nombre del Lugar:</label>
+                        <input type="text" name="nombre_lugar" required>
+
+                        <label for="cargo_ejercido">Cargo Ejercido:</label>
+                        <input type="text" name="cargo_ejercido" required>
+
+                        <label for="tiempo_ejercido">Tiempo Ejercido:</label>
+                        <input type="text" name="tiempo_ejercido" required>
+                    </div>
+                </div>
+                <button type="button" id="add-experiencia-btn">Agregar Experiencia Laboral</button>
+                
+                <h2>Certificados</h2>
+                <div id="certificados-container">
+                    <div class="certificado-item">
+                        <label for="curso_certificado">Curso del Certificado:</label>
+                        <input type="text" name="curso_certificado" required>
+
+                        <label for="nivel_certificado">Nivel del Certificado:</label>
+                        <input type="text" name="nivel_certificado" required>
+                    </div>
+                </div>
+                <button type="button" id="add-certificado-btn">Agregar Certificado</button>
+
+                <button type="submit" class="btn">Registrar</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Sistema de Reclutamiento y Selección</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('add-experiencia-btn').addEventListener('click', function() {
+                let container = document.getElementById('experiencias-container');
+                let newItem = container.querySelector('.experiencia-item').cloneNode(true);
+                newItem.querySelectorAll('input').forEach(input => input.value = '');  // Reset the inputs
+                container.appendChild(newItem);
+            });
+
+            document.getElementById('add-certificado-btn').addEventListener('click', function() {
+                let container = document.getElementById('certificados-container');
+                let newItem = container.querySelector('.certificado-item').cloneNode(true);
+                newItem.querySelectorAll('input').forEach(input => input.value = '');  // Reset the inputs
+                container.appendChild(newItem);
+            });
+        });
+    </script>
+</body>
+</html>

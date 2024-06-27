@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %} 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registar_Capacitacion</title>
+    <link rel="stylesheet" href='{% static "css/estilo_registro.css"%}'>
+</head>
+<body>
+    <header>
+    <div class="container">
+    <h1>SOLICITUD DE CAPACITACIÓN</h1>
+    </div>
+    </header>
+    
+    <a href="../">Pantalla General Capacitacion</a>
+    <div class="container">
+    <form action="/registrar_empleado/" method="POST" class="form">
+        {% csrf_token %}
+        <div>
+            <label>Codigo Encargado</label>
+            <input type="number" placeholder="2020999" name="codigo_encargado" required>
+        </div>
+        <div>
+            <label>Motivo</label>
+            <input type="text" placeholder="motivo" name="motivo" required>
+        </div>
+        <div>
+            <label>Area</label>
+            <input type="text" placeholder="departamento" name="ID_Departamento" required>
+        </div>
+        <div>
+            <label>N° Sesiones</label>
+            <input type="number" name="numero_sesiones" required>
+        </div>
+        <div>
+            <label>Fecha Inicio</label>
+            <input type="date" name="fecha_inicio" required >
+        </div>
+        <div>
+            <label>Fecha Fin</label>
+            <input type="date" name="fecha_fin" required>
+        </div>
+        <div>
+            <button type="submit" class="btn">Agregar</button>
+        </div>
+
+    </form>
+</div> 
+</body>
+
+</html>
+

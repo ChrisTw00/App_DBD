@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitar Permiso</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        select,
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-container a,
+        .btn-container button {
+            width: 48%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .btn-container a:hover,
+        .btn-container button:hover {
+            background-color: #45a049;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-left: 4px solid #4CAF50;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>¿Quieres hacer una petición de permiso?</h1>
+    </header>
+    <main class="container">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="tipo">Tipo de Permiso:</label>
+                <select id="tipo" name="tipo">
+                    <option value="Mudanza">Mudanza</option>
+                    <option value="Matrimonio">Matrimonio</option>
+                    <option value="Nacimiento de un familiar">Nacimiento de un familiar</option>
+                    <option value="Fallecimiento de un familiar">Fallecimiento de un familiar</option>
+                    <option value="Accidente de un familiar">Accidente de un familiar</option>
+                    <option value="Enfermedad grave de un familiar">Enfermedad grave de un familiar</option>
+                    <option value="Deberes inexcusables">Deberes inexcusables</option>
+                    <option value="Exámenes prenatales">Exámenes prenatales</option>
+                    <option value="Funciones sindicales">Funciones sindicales</option>
+                    <option value="Hijos prematuros">Hijos prematuros</option>
+                    <option value="Formación">Formación</option>
+                    <option value="Despido objetivo">Despido objetivo</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="motivo">Motivo:</label>
+                <textarea id="motivo" name="motivo" rows="2"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="duracion">Duración:</label>
+                <input type="text" id="duracion" name="duracion">
+            </div>
+
+            <div class="form-group">
+                <label for="id_empleado">ID Empleado:</label>
+                <input type="number" id="id_empleado" name="id_empleado">
+            </div>
+
+            <div class="form-group">
+                <label for="id_supervisor">ID Supervisor:</label>
+                <input type="number" id="id_supervisor" name="id_supervisor">
+            </div>
+
+            <div class="btn-container">
+                <button type="submit">Confirmar</button>
+                <a href="/">Volver al Menú Principal</a>
+            </div>
+        </form>
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="message">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+    </main>
+    <footer>
+        <p>&copy; Inversiones Paem SAC</p>
+    </footer>
+</body>
+
+</html>
