@@ -37,6 +37,9 @@ urlpatterns = [
     path('cese5/', views.cese5, name='cese5'),
     path('cese6/', views.cese6, name='cese6'),
     path('cese7/', views.cese7, name='cese7'),
+    path('cese8/', views.cese8, name='cese8'),
+    path('cese9/', views.cese9, name='cese9'),
+    path('ceseseleccion/', views.CeseSeleccion, name='CeseSeleccion'), 
 
     # Performance Review
     path('aprobar/', views.baseAprobar),

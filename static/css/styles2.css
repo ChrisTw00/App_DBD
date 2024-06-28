@@ -80,3 +80,22 @@ table tbody tr:nth-child(even) {
     margin-right: 250px;
     width: calc(100% - 250px);
 }
+
+button {
+    background-color: #007700;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 5px 0;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    align-items: center;
+}
+
+button:hover {
+    background-color: #007700;
+}

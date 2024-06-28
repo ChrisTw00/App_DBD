@@ -1,0 +1,132 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAEM SAC</title>
+    <link rel="stylesheet" href="{% static 'css/styles2.css' %}">
+</head>
+
+<body>
+    <div class="content">
+        <div class="container">
+            <h1>DATOS DE LA PERSONA A CESAR</h1>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <h2>CÓDIGO: </h2>
+                <input type="text" name="buscador_apellido" id="buscador_apellido" placeholder="Ingrese el apellido del cesado">
+                <button type="submit" name="action" value="buscar">Buscar</button>
+            </form>
+
+            {% if empleados %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>DNI</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Departamento</th>
+                            <th>Seleccionar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for empleado in empleados %}
+                            <tr>
+                                <td>{{ empleado.0 }}</td>
+                                <td>{{ empleado.1 }}</td>
+                                <td>{{ empleado.2 }}</td>
+                                <td>{{ empleado.3 }}</td>
+                                <td>
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="seleccionar_empleado" value="{{ empleado.4 }}">
+                                        <button type="submit" name="action" value="seleccionar_empleado">Seleccionar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+
+            <div class="content">
+                <div class="container">
+                    <h1>FICHA DE CESE</h1>
+                    <main>
+                        <div class="container">
+                            <table class="table">
+                                <tbody>
+                                    {% for revisado in revisar %}
+                                        <tr>
+                                            <td>Código del cesado</td>
+                                            <td>{{ revisado.0 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nombre del cesado</td>
+                                            <td>{{ revisado.1 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Departameno del cesado</td>
+                                            <td>{{ revisado.2 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cargo del cesado</td>
+                                            <td>{{ revisado.3 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fecha de cese</td>
+                                            <td>{{ revisado.4 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tipo de cese</td>
+                                            <td>{{ revisado.5 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Motivo de cese</td>
+                                            <td>{{ revisado.6 }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Código del supervisor a cargo del cese</td>
+                                            <td>{{ revisado.7 }}</td>
+                                        </tr>
+                                    {% endfor %}
+        
+                                    {% for beneficio in beneficios %}
+                                        <tr>
+                                            <td>Suma de beneficios y descuentos</td>
+                                            <td>{{ beneficio.0 }}</td>
+                                        </tr>
+                                    {% endfor %}
+        
+                                </tbody>
+                            </table>
+                        </div>
+                    </main>
+                    <h1>Respuesta a preguntas</h1>
+                    <main>
+                        <div class="container">
+                            <table class="table">
+                                <tbody>
+                                    {% if banco %}
+                                        {% for pregunta in banco %}
+                                            <tr>
+                                                <td>Pregunta: </td>
+                                                <td>{{ pregunta.0 }}</td>
+                                                <td>Respuesta: </td>
+                                                <td>{{ pregunta.1 }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}  
+                                </tbody>
+                            </table>
+                        </div>
+                    </main>
+                </div>
+            </div>    
+        </div>    
+        <button onclick="location.href='{% url 'seleccion' %}'">REGRESAR</button>
+    </div>      
+</body>
+</html>

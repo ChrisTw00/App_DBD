@@ -1,0 +1,63 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>PAEM SAC</title>
+    <link rel="stylesheet" href="{% static 'css/styles2.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Generar Reporte de Ceses</h1>
+        <form method="post">
+            {% csrf_token %}
+            <h2>Fecha Inicio:</h2>
+            <input type="date" name="fecha_inicio" id="fecha_inicio"><br><br>
+            <h2 for="fecha_fin">Fecha Fin:</h2>
+            <input type="date" name="fecha_fin" id="fecha_fin"><br><br>
+            <button type="submit" name="action" value="generar_reporte">Generar Reporte</button>
+        </form>
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <header>
+                <div class="container">
+                    <h1>Reporte de ceses</h1>
+                </div>
+            </header>
+            <main>
+                <div class="container">
+                    <table class="table">
+                        <tbody>
+                            {% if detalles %}
+                                {% for revisado in detalles %}
+                                    <tr>
+                                        <td>Cantidad de {{ revisado.1 }}</td>
+                                        <td>{{ revisado.0 }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+
+                            {% if todo %}
+                                {% for cantidad in todo %}
+                                    <tr>
+                                        <td>Total de ceses en el tiempo ingresado</td>
+                                        <td>{{ cantidad.0 }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <button onclick="location.href='{% url 'seleccion' %}'">REGRESAR</button>
+                
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>

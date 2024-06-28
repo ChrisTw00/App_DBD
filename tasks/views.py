@@ -726,33 +726,26 @@ def login(request):
     return render(request, 'login.html')
 
 def seleccion(request):
-    if request.method == "POST":
-        if 'action' in request.POST and request.POST['action'] == 'cesar_empleado':
-            # Obtener el próximo id_cese disponible
-            query_nuevo_id_cese = """
-                SELECT COALESCE(MAX(id_cese), 0) + 1 
-                FROM cese
-            """
-            with connection.cursor() as cursor:
-                cursor.execute(query_nuevo_id_cese)
-                id_cese = cursor.fetchone()[0]
-
-            # Guardar id_cese en la sesión
-            request.session['id_cese'] = id_cese
-
-            # Redirigir a la vista cese1 para comenzar el proceso de cese
-            return redirect('cese1')
-
     return render(request, 'seleccion.html')
 
+def CeseSeleccion(request):
+    return render(request, 'CeseSeleccion.html')
+
 def cese1(request):
+    query_nuevo_id_cese = """
+        SELECT COALESCE(MAX(id_cese), 0) + 1 
+        FROM cese
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(query_nuevo_id_cese)
+        id_cese = cursor.fetchone()[0]
+
+    # Guardar id_cese en la sesión
+    request.session['id_cese'] = id_cese
+    
     id_supervisor = request.session.get('id_supervisor')
     if not id_supervisor:
         return redirect('login')
-
-    id_cese = request.session.get('id_cese')
-    if not id_cese:
-        return redirect('seleccion')
 
     resultados_empleados = []
     id_empleado = None
@@ -762,14 +755,14 @@ def cese1(request):
 
         if action == "buscar":
             apellido_entrante = request.POST.get("buscador_apellido")
-            query_buscar_empleado = """
+            query_detalle_reporte = """
                 SELECT E.DNI, E.nombre_empleado AS NOMBRE, E.apellido_empleado AS APELLIDO, D.nombre_departamento, E.id_empleado 
                 FROM empleado AS E 
                 INNER JOIN departamento AS D ON E.id_departamento = D.id_departamento 
                 WHERE E.apellido_empleado LIKE %s
             """
             with connection.cursor() as cursor:
-                cursor.execute(query_buscar_empleado, [f'%{apellido_entrante}%'])
+                cursor.execute(query_detalle_reporte, [f'%{apellido_entrante}%'])
                 resultados_empleados = cursor.fetchall()
 
         elif action == "seleccionar_empleado":
@@ -1030,6 +1023,67 @@ def cese3(request):
 def cese4(request):
     return render(request, 'cese4.html')
 
+def cese8(request):
+    resultados_empleados = []
+    resultados_revisar = []
+    resultados_monto = []
+    cuestionario = []
+
+    id_empleado = None
+
+    if request.method == "POST":
+        action = request.POST.get("action")
+
+        if action == "buscar":
+            apellido_entrante = request.POST.get("buscador_apellido")
+            query_detalle_reporte = """
+                SELECT E.DNI, E.nombre_empleado AS NOMBRE, E.apellido_empleado AS APELLIDO, D.nombre_departamento, E.id_empleado 
+                FROM empleado AS E 
+                INNER JOIN departamento AS D ON E.id_departamento = D.id_departamento 
+                INNER JOIN cese AS C ON E.id_empleado=C.id_empleado
+                WHERE E.apellido_empleado LIKE %s
+            """
+            with connection.cursor() as cursor:
+                cursor.execute(query_detalle_reporte, [f'%{apellido_entrante}%'])
+                resultados_empleados = cursor.fetchall()
+
+        elif action == "seleccionar_empleado":
+            id_empleado = request.POST.get("seleccionar_empleado")
+            request.session['id_empleado'] = id_empleado
+
+            query_revisar_empleado = """
+                SELECT id_empleado, nombre, departamento, cargo, fecha_cese, tipo_cese, motivo, id_supervisor 
+                FROM detalles_cese
+                WHERE id_empleado = %s
+            """
+            with connection.cursor() as cursor:
+                cursor.execute(query_revisar_empleado, [id_empleado])
+                resultados_revisar = cursor.fetchall()
+
+            query_montos = """
+                SELECT SUM(B.monto) 
+                FROM beneficios_cese AS B
+                INNER JOIN CESE AS C ON C.id_cese = B.id_cese
+                WHERE C.id_empleado = %s
+            """
+            with connection.cursor() as cursor:
+                cursor.execute(query_montos, [id_empleado])
+                resultados_monto = cursor.fetchall()
+
+            query_cuestionario = """
+                SELECT pregunta_salida, respuesta_salida
+                FROM pregunta_salida AS P
+                INNER JOIN respuesta_salida AS R ON P.id_pregunta = R.id_pregunta
+                INNER JOIN cuestionario_salida AS C ON C.id_cuestionario = P.id_cuestionario
+                INNER JOIN cese AS CE ON CE.id_cese = C.id_Cese
+                WHERE id_empleado = %s
+            """
+            with connection.cursor() as cursor:
+                cursor.execute(query_cuestionario, [id_empleado])
+                cuestionario = cursor.fetchall()
+
+    return render(request, 'cese8.html', {'empleados': resultados_empleados, 'revisar': resultados_revisar, 'beneficios': resultados_monto, 'banco':cuestionario})
+
 def cese5(request):
     return render(request, 'cese5.html')
 
@@ -1078,6 +1132,41 @@ def cese6(request):
 
 def cese7(request):
     return render(request, 'cese7.html')
+
+def cese9(request):
+    resultado_detalle = []
+    resultado_total = []
+    
+    if request.method == "POST":
+        action = request.POST.get("action")
+
+        if action == "generar_reporte":
+            fecha_inicio = request.POST.get("fecha_inicio")
+            fecha_fin = request.POST.get("fecha_fin")
+
+            if fecha_fin and fecha_inicio:
+
+                query_detalle_reporte = """
+                    SELECT 
+                        COUNT(id_cese),tipo_cese
+                    FROM detalles_cese
+                    WHERE fecha_cese BETWEEN %s AND %s
+                    GROUP BY tipo_cese
+                """
+                with connection.cursor() as cursor:
+                    cursor.execute(query_detalle_reporte, [fecha_inicio, fecha_fin])
+                    resultado_detalle = cursor.fetchall()
+
+                query_total = """
+                    SELECT COUNT(id_cese)
+                    FROM detalles_cese
+                    WHERE fecha_cese BETWEEN %s AND %s
+                """
+                with connection.cursor() as cursor:
+                    cursor.execute(query_total, [fecha_inicio, fecha_fin])
+                    resultado_total = cursor.fetchall()
+
+    return render(request, 'cese9.html', {'detalles': resultado_detalle, 'todo': resultado_total})
 
 # Desempeño
 
