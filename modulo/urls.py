@@ -87,6 +87,8 @@ urlpatterns = [
     path('actualizar_evaluacion/', views.actualizar_evaluacion, name='actualizar_evaluacion'),
     path('listado_seleccionados/', views.listado_seleccionados, name='listado_seleccionados'),
     path('listar_evaluaciones/', views.listar_evaluaciones, name='listar_evaluaciones'),
+    path('seleccionar_solicitud/', views.seleccionar_solicitud, name='seleccionar_solicitud'),
+    path('crear_empleado/<str:id_solicitud>/', views.crear_empleado, name='crear_empleado'),
     path('listar_empleados/', views.listar_empleados, name='listar_empleados'),
     path('modificar_empleado/<int:id_empleado>/', views.modificar_empleado, name='modificar_empleado'),
 
@@ -99,6 +101,8 @@ urlpatterns = [
     path('GenerarReporteAsistencia/', views.generar_reporte_asistencia, name='Generar_reporte_asistencia'),
     path('MostrarReporte/<int:departamento_id>/<str:fecha_inicio>/<str:fecha_fin>/', views.mostrar_reporte, name='mostrar_reporte'),
     path('aprobar_rechazar_permisos/', views.aprobar_rechazar_permisos, name='aprobar_rechazar_permisos'),
+    path('crear_empleado/<int:id_solicitud>/', views.crear_empleado, name='crear_empleado'),
+
 ]
 
 if settings.DEBUG:

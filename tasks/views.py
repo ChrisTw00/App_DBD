@@ -276,6 +276,7 @@ def preseleccion_candidatos(request):
   
 
 import datetime 
+from datetime import date  
 
 def seleccion_final(request):
     if request.method == 'POST':
@@ -285,42 +286,16 @@ def seleccion_final(request):
         if seleccionados or no_seleccionados:
             with connection.cursor() as cursor:
                 if seleccionados:
-                    for id_solicitud in seleccionados:
-                        # Obtener los datos del candidato y de la vacante para la solicitud seleccionada
-                        cursor.execute("""
-                            SELECT c.ID_Cand, c.Nombre_Cand, c.Apell_Cand, c.Correo_Cand, c.Num_Telefono, c.Direccion_Cand, c.Fecha_Nac_Cand,
-                                   v.ID_Departamento, v.ID_Cargo
-                            FROM Solicitud_Empleo se
-                            JOIN Candidato c ON se.ID_Cand = c.ID_Cand
-                            JOIN Vacante v ON se.ID_Vacante = v.ID_Vac
-                            WHERE se.ID_Solicitud = %s
-                        """, [id_solicitud])
-                        candidato = cursor.fetchone()
-
-                        if candidato:
-                            id_cand, nombre, apellido, correo, telefono, direccion, fecha_nac, id_departamento, id_cargo = candidato
-
-                            # Insertar el nuevo empleado
-                            id_empleado = get_next_id('Empleado', 'ID_Empleado')
-                            fecha_ingreso = datetime.date.today()  # Usar la fecha actual como fecha de ingreso
-                            cursor.execute("""
-                                INSERT INTO Empleado (ID_Empleado, Nombre_Empleado, Apellido_Empleado, Telefono, Direccion, Correo, Fecha_Nacimiento, Cant_Hijos, Estado_Civil, DNI, Fecha_Ingreso, ID_Departamento, ID_Cargo, Contrasena, Estado_laboral)
-                                VALUES (%s, %s, %s, %s, %s, %s, %s, 0, 'Soltero', '00000000', %s, %s, %s, '123', 'Activo')
-                            """, [id_empleado, nombre, apellido, telefono, direccion, correo, fecha_nac, fecha_ingreso, id_departamento, id_cargo])
-
-                            # Actualizar el estado de la solicitud a "Seleccionado"
-                            cursor.execute("""
-                                UPDATE Solicitud_Empleo
-                                SET Est_Solicitud = 'Seleccionado'
-                                WHERE ID_Solicitud = %s
-                            """, [id_solicitud])
-
+                    cursor.execute(
+                        "UPDATE Solicitud_Empleo SET Est_Solicitud = 'Seleccionado' WHERE ID_Solicitud IN %s",
+                        [tuple(seleccionados)]
+                    )
+                
                 if no_seleccionados:
                     cursor.execute(
                         "UPDATE Solicitud_Empleo SET Est_Solicitud = 'No Seleccionado' WHERE ID_Solicitud IN %s",
                         [tuple(no_seleccionados)]
                     )
-                    
             return redirect('success')
     else:
         with connection.cursor() as cursor:
@@ -336,6 +311,55 @@ def seleccion_final(request):
             candidatos = cursor.fetchall()
 
         return render(request, 'seleccion_final.html', {'candidatos': candidatos})
+def seleccionar_solicitud(request):
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT se.ID_solicitud, c.Nombre_Cand, c.Apell_Cand
+            FROM Solicitud_Empleo se
+            JOIN Candidato c ON se.ID_Cand = c.ID_Cand
+            WHERE se.Est_Solicitud = 'Seleccionado'
+        """)
+        solicitudes = cursor.fetchall()
+    
+    return render(request, 'seleccionar_solicitud.html', {'solicitudes': solicitudes})
+
+import datetime 
+from datetime import date
+
+def crear_empleado(request, id_solicitud):
+    if request.method == 'POST':
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT c.Nombre_Cand, c.Apell_Cand, c.Num_Telefono, c.Direccion_Cand, c.Correo_Cand, 
+                       c.Fecha_Nac_Cand, v.ID_Departamento, v.ID_Cargo
+                FROM Solicitud_Empleo se
+                JOIN Candidato c ON se.ID_Cand = c.ID_Cand
+                JOIN Vacante v ON se.ID_Vacante = v.ID_Vac
+                WHERE se.ID_Solicitud = %s AND se.Est_Solicitud = 'Seleccionado'
+            """, [id_solicitud])  # Asegurarse de que id_solicitud es tratado como cadena
+            candidato = cursor.fetchone()
+            
+            if candidato:
+                nombre, apellido, telefono, direccion, correo, fecha_nac, id_departamento, id_cargo = candidato
+                fecha_ingreso = date.today()  # Usar la fecha actual como fecha de ingreso
+                id_empleado = get_next_id('Empleado', 'ID_Empleado')
+                
+                # Insertar en la tabla Empleado
+                cursor.execute("""
+                    INSERT INTO Empleado (ID_Empleado, Nombre_Empleado, Apellido_Empleado, Telefono, Direccion, 
+                                          Correo, Fecha_Nacimiento, Cant_Hijos, Estado_Civil, DNI, Fecha_Ingreso, 
+                                          ID_Departamento, ID_Cargo, Contrasena, Estado_laboral)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, 0, 'Soltero', '12345678', %s, %s, %s, '123', 'Activo')
+                """, [id_empleado, nombre, apellido, telefono, direccion, correo, fecha_nac, fecha_ingreso, id_departamento, id_cargo])
+                
+                # Confirmar que la operación se ha realizado correctamente
+                connection.commit()
+        
+        return redirect('success')
+    else:
+        return render(request, 'crear_empleado.html', {'id_solicitud': id_solicitud})
+
+
 
 def listado_seleccionados(request):
     with connection.cursor() as cursor:
