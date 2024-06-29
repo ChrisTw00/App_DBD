@@ -1319,7 +1319,7 @@ def baseResponder(request):
         tiposCuestionario = cursor.fetchall()
     return render(request,'baseResponder.html',{"tiposCuestionario":tiposCuestionario})
 
-def mostrarPreguntas(request,id_tipo_cuestionario):
+def mostrarPreguntasResponder(request,id_tipo_cuestionario):
     with connection.cursor() as cursor:
         cursor.execute('SELECT ID_Tipo_Cuestionario, Tipo FROM Tipo_Cuestionario;')
         tiposCuestionario = cursor.fetchall()
@@ -1500,7 +1500,7 @@ def baseEditar(request):
     return render(request,'baseEditar.html',{"tiposCuestionario":tiposCuestionario})
 
 
-def mostrarPreguntas(request,id_tipo_cuestionario):
+def mostrarPreguntasEditar(request,id_tipo_cuestionario):
     with connection.cursor() as cursor:
         cursor.execute('SELECT ID_Tipo_Cuestionario, Tipo FROM Tipo_Cuestionario;')
         tiposCuestionario = cursor.fetchall()
@@ -1592,7 +1592,7 @@ def baseAprobar(request):
     return render(request,'baseAprobar.html',{"tiposCuestionario":tiposCuestionario})
 
 
-def mostrarPreguntas(request,id_tipo_cuestionario):
+def mostrarPreguntasAprobar(request,id_tipo_cuestionario):
     with connection.cursor() as cursor:
         cursor.execute('SELECT ID_Tipo_Cuestionario, Tipo FROM Tipo_Cuestionario;')
         tiposCuestionario = cursor.fetchall()
