@@ -1,5 +1,7 @@
 # tasks/views.py
-
+import os
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, redirect
 from django.db import connection, IntegrityError
 from django.http import HttpResponse
@@ -34,12 +36,21 @@ def success_view(request):
 
 def listar_postulantes(request):
     with connection.cursor() as cursor:
-        cursor.execute("SELECT ID_Cand, Nombre_Cand, Apell_Cand FROM Candidato")
+        cursor.execute("""
+            SELECT c.ID_Cand, c.Nombre_Cand, c.Apell_Cand, cu.archivo_pdf
+            FROM Candidato c
+            JOIN Curriculum cu ON c.Id_Curriculum = cu.ID_Curriculum
+        """)
         rows = cursor.fetchall()
 
-    candidatos = [{'id_cand': row[0], 'nombre_cand': row[1], 'apell_cand': row[2]} for row in rows]
+    candidatos = [{'id_cand': row[0], 'nombre_cand': row[1], 'apell_cand': row[2], 'archivo_pdf': row[3]} for row in rows]
     
     return render(request, 'listar_postulantes.html', {'candidatos': candidatos})
+
+
+import base64
+from django.conf import settings
+import os
 
 def detalle_postulante(request, id_cand):
     with connection.cursor() as cursor:
@@ -72,6 +83,11 @@ def detalle_postulante(request, id_cand):
             'archivo_pdf': row[4]
         }
 
+        # Leer el archivo PDF y convertirlo a base64
+        pdf_path = os.path.join(settings.MEDIA_ROOT, curriculum['archivo_pdf'])
+        with open(pdf_path, 'rb') as pdf_file:
+            encoded_pdf = base64.b64encode(pdf_file.read()).decode('utf-8')
+
         # Obtener las experiencias laborales
         cursor.execute("""
             SELECT EL.Nombre_Lugar, EL.Cargo_Ejercido, EL.Tiempo_Ejercido
@@ -94,9 +110,14 @@ def detalle_postulante(request, id_cand):
         'candidato': candidato,
         'curriculum': curriculum,
         'experiencias': experiencias,
-        'certificados': certificados
+        'certificados': certificados,
+        'encoded_pdf': encoded_pdf
     })
 
+
+
+import os
+from django.core.files.storage import default_storage
 
 def registrar_postulante(request):
     if request.method == 'POST':
@@ -117,6 +138,14 @@ def registrar_postulante(request):
         # Obtener listas de certificados
         curso_certificado_list = request.POST.getlist('curso_certificado')
         nivel_certificado_list = request.POST.getlist('nivel_certificado')
+
+        # Limitar la longitud del nombre del archivo PDF
+        fs = FileSystemStorage()
+        filename = fs.save(archivo_pdf.name, archivo_pdf)
+        uploaded_file_url = fs.url(filename)
+        archivo_pdf_name = archivo_pdf.name
+        if len(archivo_pdf_name) > 255:
+            archivo_pdf_name = archivo_pdf_name[:255]
 
         with connection.cursor() as cursor:
             # Insertar experiencias laborales y obtener sus IDs
@@ -142,7 +171,7 @@ def registrar_postulante(request):
             # Insertar curriculum
             curriculum_id = get_next_id('Curriculum', 'id_curriculum')
             cursor.execute("INSERT INTO Curriculum (ID_Curriculum, Grado_Educacion, ID_Experiencia, ID_Certificado, archivo_pdf) VALUES (%s, %s, %s, %s, %s)", 
-                           [curriculum_id, grado_educacion, experiencia_id, certificado_id, archivo_pdf.name])
+                           [curriculum_id, grado_educacion, experiencia_id, certificado_id, archivo_pdf_name])
 
             # Insertar las relaciones entre curriculum y experiencias laborales
             for experiencia_id in experiencia_ids:
@@ -162,6 +191,7 @@ def registrar_postulante(request):
         return redirect('success')
     else:
         return render(request, 'postulante_form.html')
+
     
 def seleccionar_horario_puesto(request):
     if request.method == 'POST':
@@ -570,26 +600,30 @@ def listar_evaluaciones(request):
     return render(request, 'listar_evaluaciones.html', {'evaluaciones': evaluaciones})
 
 def listar_empleados(request):
-    orden = request.GET.get('orden', 'fecha')  
-    direccion = request.GET.get('direccion', 'desc')  #
-    
+    orden = request.GET.get('orden', 'nombre')  # Obtener el parámetro de orden, por defecto 'nombre'
+    busqueda = request.GET.get('busqueda', '')  # Obtener el término de búsqueda
+
     with connection.cursor() as cursor:
         if orden == 'fecha':
-            cursor.execute(f"""
+            cursor.execute("""
                 SELECT ID_Empleado, Nombre_Empleado, Apellido_Empleado, Fecha_Ingreso
                 FROM Empleado
-                ORDER BY Fecha_Ingreso {direccion.upper()}
-            """)
+                WHERE Nombre_Empleado ILIKE %s OR Apellido_Empleado ILIKE %s
+                ORDER BY Fecha_Ingreso DESC
+            """, [f'%{busqueda}%', f'%{busqueda}%'])
         else:
-            cursor.execute(f"""
+            cursor.execute("""
                 SELECT ID_Empleado, Nombre_Empleado, Apellido_Empleado, Fecha_Ingreso
                 FROM Empleado
-                ORDER BY Nombre_Empleado {direccion.upper()}, Apellido_Empleado {direccion.upper()}
-            """)
-        
+                WHERE Nombre_Empleado ILIKE %s OR Apellido_Empleado ILIKE %s
+                ORDER BY Nombre_Empleado ASC, Apellido_Empleado ASC
+            """, [f'%{busqueda}%', f'%{busqueda}%'])
+
         empleados = cursor.fetchall()
-    
-    return render(request, 'listar_empleados.html', {'empleados': empleados, 'orden': orden, 'direccion': direccion})
+
+    return render(request, 'listar_empleados.html', {'empleados': empleados, 'orden': orden, 'busqueda': busqueda})
+
+
 
 
 def modificar_empleado(request, id_empleado):

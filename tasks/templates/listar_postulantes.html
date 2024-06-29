@@ -20,6 +20,7 @@
                     <tr>
                         <th>Nombre</th>
                         <th>Apellido</th>
+                        <th>Curriculum PDF</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -28,6 +29,7 @@
                     <tr>
                         <td>{{ candidato.nombre_cand }}</td>
                         <td>{{ candidato.apell_cand }}</td>
+                        <td><a href="{{ candidato.archivo_pdf }}" target="_blank">Ver PDF</a></td>
                         <td><a href="{% url 'detalle_postulante' candidato.id_cand %}" class="btn">Ver detalles</a></td>
                     </tr>
                     {% endfor %}

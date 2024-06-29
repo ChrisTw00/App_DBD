@@ -15,12 +15,17 @@
     </header>
     <main>
         <div class="container-lista">
+            <form method="get" action="{% url 'listar_empleados' %}">
+                <input type="text" name="busqueda" placeholder="Buscar por nombre o apellido" value="{{ busqueda }}">
+                <button type="submit">Buscar</button>
+            </form>
+            <br>
             <table class="table">
                 <thead>
                     <tr>
-                        <th><a href="?orden=nombre&direccion={% if orden == 'nombre' and direccion == 'asc' %}desc{% else %}asc{% endif %}">Nombre</a></th>
-                        <th><a href="?orden=nombre&direccion={% if orden == 'nombre' and direccion == 'asc' %}desc{% else %}asc{% endif %}">Apellido</a></th>
-                        <th><a href="?orden=fecha&direccion={% if orden == 'fecha' and direccion == 'asc' %}desc{% else %}asc{% endif %}">Fecha de Ingreso</a></th>
+                        <th><a href="?orden=nombre&busqueda={{ busqueda }}">Nombre</a></th>
+                        <th><a href="?orden=nombre&busqueda={{ busqueda }}">Apellido</a></th>
+                        <th><a href="?orden=fecha&busqueda={{ busqueda }}">Fecha de Ingreso</a></th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
