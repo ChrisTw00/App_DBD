@@ -43,12 +43,12 @@ urlpatterns = [
 
     # Performance Review
     path('aprobar/', views.baseAprobar),
-    path('aprobar/<id_tipo_cuestionario>/', views.mostrarPreguntas),
+    path('aprobar/<id_tipo_cuestionario>/', views.mostrarPreguntasAprobar),
     path('enviarAprobacion/', views.enviarAprobacion),
     path('crear/', views.crear),
     path('botonCrear/', views.botonCrear),
     path('editar/', views.baseEditar),
-    path('editar/<int:id_tipo_cuestionario>/', views.mostrarPreguntas),
+    path('editar/<int:id_tipo_cuestionario>/', views.mostrarPreguntasEditar),
     path('agregarPregunta/', views.agregarPregunta),
     path('borrarPregunta/<int:id_pregunta>/', views.borrarPregunta),
     path('enviarGerencia/', views.enviarGerencia),
@@ -65,7 +65,7 @@ urlpatterns = [
     path('reporte/<id_empleado>/', views.reporteBase),
     path('confirmarReporte/', views.confirmarReporte),
     path('responder/', views.baseResponder),
-    path('responder/<id_tipo_cuestionario>/', views.mostrarPreguntas),
+    path('responder/<id_tipo_cuestionario>/', views.mostrarPreguntasResponder),
     path('enviarRespuestas/', views.enviarRespuestas),
     path('reunionesPendientes/', views.mostrarReuniones),
     path('revisar/', views.baseRevisar),
