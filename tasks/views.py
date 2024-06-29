@@ -244,6 +244,9 @@ def preseleccion_candidatos(request):
     else:
         return redirect('seleccionar_vacante')
   
+
+import datetime 
+
 def seleccion_final(request):
     if request.method == 'POST':
         seleccionados = request.POST.getlist('seleccionados')
@@ -252,15 +255,42 @@ def seleccion_final(request):
         if seleccionados or no_seleccionados:
             with connection.cursor() as cursor:
                 if seleccionados:
-                    cursor.execute(
-                        "UPDATE Solicitud_Empleo SET Est_Solicitud = 'Seleccionado' WHERE ID_Solicitud IN %s",
-                        [tuple(seleccionados)]
-                    )
+                    for id_solicitud in seleccionados:
+                        # Obtener los datos del candidato y de la vacante para la solicitud seleccionada
+                        cursor.execute("""
+                            SELECT c.ID_Cand, c.Nombre_Cand, c.Apell_Cand, c.Correo_Cand, c.Num_Telefono, c.Direccion_Cand, c.Fecha_Nac_Cand,
+                                   v.ID_Departamento, v.ID_Cargo
+                            FROM Solicitud_Empleo se
+                            JOIN Candidato c ON se.ID_Cand = c.ID_Cand
+                            JOIN Vacante v ON se.ID_Vacante = v.ID_Vac
+                            WHERE se.ID_Solicitud = %s
+                        """, [id_solicitud])
+                        candidato = cursor.fetchone()
+
+                        if candidato:
+                            id_cand, nombre, apellido, correo, telefono, direccion, fecha_nac, id_departamento, id_cargo = candidato
+
+                            # Insertar el nuevo empleado
+                            id_empleado = get_next_id('Empleado', 'ID_Empleado')
+                            fecha_ingreso = datetime.date.today()  # Usar la fecha actual como fecha de ingreso
+                            cursor.execute("""
+                                INSERT INTO Empleado (ID_Empleado, Nombre_Empleado, Apellido_Empleado, Telefono, Direccion, Correo, Fecha_Nacimiento, Cant_Hijos, Estado_Civil, DNI, Fecha_Ingreso, ID_Departamento, ID_Cargo, Contrasena, Estado_laboral)
+                                VALUES (%s, %s, %s, %s, %s, %s, %s, 0, 'Soltero', '00000000', %s, %s, %s, '123', 'Activo')
+                            """, [id_empleado, nombre, apellido, telefono, direccion, correo, fecha_nac, fecha_ingreso, id_departamento, id_cargo])
+
+                            # Actualizar el estado de la solicitud a "Seleccionado"
+                            cursor.execute("""
+                                UPDATE Solicitud_Empleo
+                                SET Est_Solicitud = 'Seleccionado'
+                                WHERE ID_Solicitud = %s
+                            """, [id_solicitud])
+
                 if no_seleccionados:
                     cursor.execute(
                         "UPDATE Solicitud_Empleo SET Est_Solicitud = 'No Seleccionado' WHERE ID_Solicitud IN %s",
                         [tuple(no_seleccionados)]
                     )
+                    
             return redirect('success')
     else:
         with connection.cursor() as cursor:
@@ -538,6 +568,105 @@ def listar_evaluaciones(request):
         evaluaciones = cursor.fetchall()
 
     return render(request, 'listar_evaluaciones.html', {'evaluaciones': evaluaciones})
+
+def listar_empleados(request):
+    orden = request.GET.get('orden', 'fecha')  
+    direccion = request.GET.get('direccion', 'desc')  #
+    
+    with connection.cursor() as cursor:
+        if orden == 'fecha':
+            cursor.execute(f"""
+                SELECT ID_Empleado, Nombre_Empleado, Apellido_Empleado, Fecha_Ingreso
+                FROM Empleado
+                ORDER BY Fecha_Ingreso {direccion.upper()}
+            """)
+        else:
+            cursor.execute(f"""
+                SELECT ID_Empleado, Nombre_Empleado, Apellido_Empleado, Fecha_Ingreso
+                FROM Empleado
+                ORDER BY Nombre_Empleado {direccion.upper()}, Apellido_Empleado {direccion.upper()}
+            """)
+        
+        empleados = cursor.fetchall()
+    
+    return render(request, 'listar_empleados.html', {'empleados': empleados, 'orden': orden, 'direccion': direccion})
+
+
+def modificar_empleado(request, id_empleado):
+    if request.method == 'POST':
+        nombre_empleado = request.POST['nombre_empleado']
+        apellido_empleado = request.POST['apellido_empleado']
+        telefono = request.POST['telefono']
+        direccion = request.POST['direccion']
+        correo = request.POST['correo']
+        fecha_nacimiento = request.POST['fecha_nacimiento']
+        cant_hijos = request.POST['cant_hijos']
+        estado_civil = request.POST['estado_civil']
+        dni = request.POST['dni']
+        id_departamento = request.POST['id_departamento']
+        id_cargo = request.POST['id_cargo']
+        estado_laboral = request.POST['estado_laboral']
+
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                UPDATE Empleado
+                SET Nombre_Empleado = %s,
+                    Apellido_Empleado = %s,
+                    Telefono = %s,
+                    Direccion = %s,
+                    Correo = %s,
+                    Fecha_Nacimiento = %s,
+                    Cant_Hijos = %s,
+                    Estado_Civil = %s,
+                    DNI = %s,
+                    ID_Departamento = %s,
+                    ID_Cargo = %s,
+                    Estado_laboral = %s
+                WHERE ID_Empleado = %s
+            """, [
+                nombre_empleado, apellido_empleado, telefono, direccion, correo,
+                fecha_nacimiento, cant_hijos, estado_civil, dni, id_departamento, id_cargo, estado_laboral, id_empleado
+            ])
+        
+        return redirect('listar_empleados')
+
+    else:
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT ID_Empleado, Nombre_Empleado, Apellido_Empleado, Telefono, Direccion, Correo, Fecha_Nacimiento, Cant_Hijos, Estado_Civil, DNI, ID_Departamento, ID_Cargo, Estado_laboral
+                FROM Empleado
+                WHERE ID_Empleado = %s
+            """, [id_empleado])
+            empleado = cursor.fetchone()
+
+            cursor.execute("SELECT ID_Departamento, Nombre_Departamento FROM Departamento")
+            departamentos = cursor.fetchall()
+
+            cursor.execute("SELECT ID_Cargo, Nombre FROM Cargo")
+            cargos = cursor.fetchall()
+
+        if empleado:
+            empleado_data = {
+                'id_empleado': empleado[0],
+                'nombre_empleado': empleado[1],
+                'apellido_empleado': empleado[2],
+                'telefono': empleado[3],
+                'direccion': empleado[4],
+                'correo': empleado[5],
+                'fecha_nacimiento': empleado[6].strftime('%Y-%m-%d'),
+                'cant_hijos': empleado[7],
+                'estado_civil': empleado[8],
+                'dni': empleado[9],
+                'id_departamento': empleado[10],
+                'id_cargo': empleado[11],
+                'estado_laboral': empleado[12]
+            }
+
+        return render(request, 'modificar_empleado.html', {
+            'empleado': empleado_data,
+            'departamentos': departamentos,
+            'cargos': cargos
+        })
 
 # Capacitacion
 

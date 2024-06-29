@@ -7,7 +7,7 @@ from tasks import views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # Employee Management
+ 
     path('registro_empleado/', views.mostrarventana),
     path('registrar_empleado/', views.registrar_empleado),
     path('registrar_empleado/registro_sesion/', views.registro_sesion_ventana),
@@ -22,12 +22,10 @@ urlpatterns = [
     path('actualizar_asistencia/', views.ventana_asistencia),
     path('ingresarIdSesion/', views.ingresarIdSesion),
     path('mostrarAsistencia/<id_sesion>/', views.mostrarAsistencia),
-    
-    # Redereccionar Capacitación
+
 
     path('capacitacion/', views.tablacargo, name="menuJulio"),
 
-    # Employee Termination
     path('', views.login, name='login'),
     path('seleccion/', views.seleccion, name='seleccion'),
     path('cese1/', views.cese1, name='cese1'),
@@ -41,7 +39,6 @@ urlpatterns = [
     path('cese9/', views.cese9, name='cese9'),
     path('ceseseleccion/', views.CeseSeleccion, name='CeseSeleccion'), 
 
-    # Performance Review
     path('aprobar/', views.baseAprobar),
     path('aprobar/<id_tipo_cuestionario>/', views.mostrarPreguntasAprobar),
     path('enviarAprobacion/', views.enviarAprobacion),
@@ -74,7 +71,6 @@ urlpatterns = [
     path('responder/calificacion/NULL/', views.revisarCalificacionNULL),
     path('responder/calificacion/<id_tipo_calificacion>/', views.revisarCalificacion),
 
-    # Recruitment
     path('MenuReclutamiento/', views.home, name='home'),
     path('registrar/', views.registrar_postulante, name='registrar_postulante'),
     path('success/', views.success_view, name='success'),
@@ -91,7 +87,9 @@ urlpatterns = [
     path('actualizar_evaluacion/', views.actualizar_evaluacion, name='actualizar_evaluacion'),
     path('listado_seleccionados/', views.listado_seleccionados, name='listado_seleccionados'),
     path('listar_evaluaciones/', views.listar_evaluaciones, name='listar_evaluaciones'),
-    # Edison
+    path('listar_empleados/', views.listar_empleados, name='listar_empleados'),
+    path('modificar_empleado/<int:id_empleado>/', views.modificar_empleado, name='modificar_empleado'),
+
     path('MenuPrincipal', views.MenuPrincipal, name='MenuPrincipal'),    
     path('InsertarAsistencia/', views.Insert),
     path('empleados_por_departamento/<int:departamento_id>/', views.empleados_por_departamento, name='empleados_por_departamento'),

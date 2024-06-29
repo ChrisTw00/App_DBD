@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificar Empleado</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Modificar Empleado</h1>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <form method="post" class="form">
+                {% csrf_token %}
+                <label for="nombre_empleado">Nombre:</label>
+                <input type="text" name="nombre_empleado" id="nombre_empleado" value="{{ empleado.nombre_empleado }}" required>
+
+                <label for="apellido_empleado">Apellido:</label>
+                <input type="text" name="apellido_empleado" id="apellido_empleado" value="{{ empleado.apellido_empleado }}" required>
+
+                <label for="telefono">Teléfono:</label>
+                <input type="text" name="telefono" id="telefono" value="{{ empleado.telefono }}" required>
+
+                <label for="direccion">Dirección:</label>
+                <input type="text" name="direccion" id="direccion" value="{{ empleado.direccion }}" required>
+
+                <label for="correo">Correo:</label>
+                <input type="email" name="correo" id="correo" value="{{ empleado.correo }}" required>
+
+                <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" value="{{ empleado.fecha_nacimiento }}" required>
+
+                <label for="cant_hijos">Cantidad de Hijos:</label>
+                <input type="number" name="cant_hijos" id="cant_hijos" value="{{ empleado.cant_hijos }}" required>
+
+                <label for="estado_civil">Estado Civil:</label>
+                <input type="text" name="estado_civil" id="estado_civil" value="{{ empleado.estado_civil }}" required>
+
+                <label for="dni">DNI:</label>
+                <input type="text" name="dni" id="dni" value="{{ empleado.dni }}" required>
+
+                <label for="id_departamento">Departamento:</label>
+                <select name="id_departamento" id="id_departamento" required>
+                    {% for departamento in departamentos %}
+                        <option value="{{ departamento.0 }}" {% if empleado.id_departamento == departamento.0 %}selected{% endif %}>{{ departamento.1 }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="id_cargo">Cargo:</label>
+                <select name="id_cargo" id="id_cargo" required>
+                    {% for cargo in cargos %}
+                        <option value="{{ cargo.0 }}" {% if empleado.id_cargo == cargo.0 %}selected{% endif %}>{{ cargo.1 }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="estado_laboral">Estado Laboral:</label>
+                <select name="estado_laboral" id="estado_laboral" required>
+                    <option value="Activo" {% if empleado.estado_laboral == 'Activo' %}selected{% endif %}>Activo</option>
+                    <option value="Inactivo" {% if empleado.estado_laboral == 'Inactivo' %}selected{% endif %}>Inactivo</option>
+                </select>
+
+                <button type="submit" class="btn">Guardar Cambios</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Sistema de Reclutamiento y Selección</p>
+        </div>
+    </footer>
+</body>
+</html>
